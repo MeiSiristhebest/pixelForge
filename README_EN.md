@@ -1,4 +1,4 @@
-# PixelForge 🎨
+# PixelForge ðŸŽ¨
 
 <p align="center">
   <strong>AI-Powered Pixel Character Generator SaaS Platform</strong>
@@ -18,12 +18,12 @@
 ---
 
 <p align="center">
-  <a href="README.md">🇨🇳 中文</a> &nbsp;·&nbsp; <a href="README_EN.md">🇺🇸 English</a>
+  <a href="README.md">ðŸ‡¨ðŸ‡³ ä¸­æ–‡</a> &nbsp;Â·&nbsp; <a href="README_EN.md">ðŸ‡ºðŸ‡¸ English</a>
 </p>
 
 ---
 
-## 🌟 About
+## ðŸŒŸ About
 
 **PixelForge** is an **end-to-end AI pixel-character generation SaaS platform** built for indie game developers and pixel-art enthusiasts.
 
@@ -31,45 +31,45 @@ In a traditional pixel-art workflow, hand-drawing a single multi-direction, mult
 
 1. Runs a serverless ComfyUI workflow on RunPod serverless GPUs to generate a multi-direction pixel sprite sheet.
 2. Uses a Celery async task queue to schedule large-scale generation jobs and streams progress back over WebSocket.
-3. Renders frame-by-frame animation previews in real time on a PixiJS Canvas — with per-frame scrubbing and one-click PNG export.
+3. Renders frame-by-frame animation previews in real time on a PixiJS Canvas â€” with per-frame scrubbing and one-click PNG export.
 4. Persists finished artwork to Cloudflare R2 object storage for low-latency global edge delivery.
 
-> **Why not just use Midjourney / DALL·E?** Generic text-to-image models hit three hard engineering walls in pixel-art work: they can't guarantee directional consistency (front/back views often come out misshapen), they can't export per-frame sprites with clean alpha channels, and they don't support reproducible seed-based batch generation. PixelForge ships a purpose-built ComfyUI workflow with a dedicated pixel-art LoRA plus a post-processing pipeline specifically to fix these three vertical-market pain points.
+> **Why not just use Midjourney / DALLÂ·E?** Generic text-to-image models hit three hard engineering walls in pixel-art work: they can't guarantee directional consistency (front/back views often come out misshapen), they can't export per-frame sprites with clean alpha channels, and they don't support reproducible seed-based batch generation. PixelForge ships a purpose-built ComfyUI workflow with a dedicated pixel-art LoRA plus a post-processing pipeline specifically to fix these three vertical-market pain points.
 
 ---
 
-## ✨ Key Features
+## âœ¨ Key Features
 
 | Feature | Description | Trade-off Note |
 |---------|-------------|----------------|
-| **⚡ Multi-direction AI sprite generation** | Custom ComfyUI workflow on RunPod serverless GPUs; front / back / side 4-way consistency output. | ⚠️ Output quality is tightly coupled to the LoRA weights + workflow version deployed on the RunPod endpoint. |
-| **🔄 Real-time WebSocket progress** | Task states (queued / running / done / failed) pushed sub-second, zero polling overhead. | ⚠️ Browser tabs that are background-suspended must manually reconnect on focus. |
-| **🖼️ PixiJS sprite previewer** | Per-frame playback, speed control, single-frame inspection, and full-sheet PNG export with alpha. | ⚠️ Very large sprite sheets (> 8 directions) may drop frames on mobile Safari. |
-| **🚀 Celery task orchestration** | Redis-backed Celery Worker + Beat + Flower; multi-queue concurrent scheduling for generation vs. post-processing. | ⚠️ Single-worker concurrency defaults to 4; horizontally scale Worker replicas for burst workloads. |
-| **☁️ Cloudflare R2 edge storage** | S3-compatible API; 300+ global POPs; zero egress fees. | ⚠️ Bulk small-object uploads should use S3 Batch; per-PUT throughput is capped. |
-| **🐳 One-command container cluster** | Docker Compose boots a 7-service stack (Postgres / Redis / API / Worker / Beat / Flower / Frontend). | ⚠️ First local pull is ~ 4.2 GB across all images; needs a stable internet connection. |
+| **âš¡ Multi-direction AI sprite generation** | Custom ComfyUI workflow on RunPod serverless GPUs; front / back / side 4-way consistency output. | âš ï¸ Output quality is tightly coupled to the LoRA weights + workflow version deployed on the RunPod endpoint. |
+| **ðŸ”„ Real-time WebSocket progress** | Task states (queued / running / done / failed) pushed sub-second, zero polling overhead. | âš ï¸ Browser tabs that are background-suspended must manually reconnect on focus. |
+| **ðŸ–¼ï¸ PixiJS sprite previewer** | Per-frame playback, speed control, single-frame inspection, and full-sheet PNG export with alpha. | âš ï¸ Very large sprite sheets (> 8 directions) may drop frames on mobile Safari. |
+| **ðŸš€ Celery task orchestration** | Redis-backed Celery Worker + Beat + Flower; multi-queue concurrent scheduling for generation vs. post-processing. | âš ï¸ Single-worker concurrency defaults to 4; horizontally scale Worker replicas for burst workloads. |
+| **â˜ï¸ Cloudflare R2 edge storage** | S3-compatible API; 300+ global POPs; zero egress fees. | âš ï¸ Bulk small-object uploads should use S3 Batch; per-PUT throughput is capped. |
+| **ðŸ³ One-command container cluster** | Docker Compose boots a 7-service stack (Postgres / Redis / API / Worker / Beat / Flower / Frontend). | âš ï¸ First local pull is ~ 4.2 GB across all images; needs a stable internet connection. |
 
 ---
 
-## ⚙️ Requirements
+## âš™ï¸ Requirements
 
 Before running PixelForge locally or on a server, make sure the following are available:
 
 | Prerequisite | Minimum Version | Notes |
 |-------------|-----------------|-------|
-| **Docker** | ≥ 24.0 + Compose v2 | Recommended path; orchestrates all 7 microservices. |
-| **Node.js** | ≥ 22 (22.x LTS preferred) | Only required if you are building the Frontend manually outside Docker. |
-| **pnpm** | ≥ 10.25.0 | Must match the `packageManager` field in `frontend/package.json`. |
-| **uv** | ≥ 0.4 | Only required if building the Backend manually (replaces pip + venv). |
-| **Python** | ≥ 3.12 | Managed automatically by uv; no manual pyenv required. |
-| **RunPod account** | — | Required: API Key + Endpoint ID that hosts your ComfyUI workflow. |
-| **Cloudflare R2** | — | Required: Account ID / Access Key / Bucket for finished artwork storage. |
+| **Docker** | â‰¥ 24.0 + Compose v2 | Recommended path; orchestrates all 7 microservices. |
+| **Node.js** | â‰¥ 22 (22.x LTS preferred) | Only required if you are building the Frontend manually outside Docker. |
+| **pnpm** | â‰¥ 10.25.0 | Must match the `packageManager` field in `frontend/package.json`. |
+| **uv** | â‰¥ 0.4 | Only required if building the Backend manually (replaces pip + venv). |
+| **Python** | â‰¥ 3.12 | Managed automatically by uv; no manual pyenv required. |
+| **RunPod account** | â€” | Required: API Key + Endpoint ID that hosts your ComfyUI workflow. |
+| **Cloudflare R2** | â€” | Required: Account ID / Access Key / Bucket for finished artwork storage. |
 
 ---
 
-## 📦 Installation
+## ðŸ“¦ Installation
 
-### Option A · Docker Compose (recommended — zero host dependencies)
+### Option A Â· Docker Compose (recommended â€” zero host dependencies)
 
 Boots **7 microservices** in one command: PostgreSQL 16, Redis 7, FastAPI, Celery Worker, Celery Beat, Flower task UI, and the Next.js Frontend.
 
@@ -102,13 +102,13 @@ docker compose up -d
 # Stop (keeps DB volumes + cached images)
 docker compose stop
 
-# Full teardown + VOLUME DELETE (= WIPE Postgres + Redis data — be careful)
+# Full teardown + VOLUME DELETE (= WIPE Postgres + Redis data â€” be careful)
 docker compose down -v
 ```
 
 ---
 
-### Option B · Manual local install (recommended for debugging / AI workflow tweaking)
+### Option B Â· Manual local install (recommended for debugging / AI workflow tweaking)
 
 Use this when you need to step-debug the AI generation workflow or want hot reload on frontend / backend simultaneously.
 
@@ -130,10 +130,10 @@ uv sync --dev
 # Run the FastAPI server with auto-reload on port 8000
 uv run uvicorn app.main:app --reload --port 8000
 
-# 2nd terminal — start the Celery Worker (concurrency 4; queues: generation + celery)
+# 2nd terminal â€” start the Celery Worker (concurrency 4; queues: generation + celery)
 uv run celery -A app.celery_app.app worker --loglevel=info --concurrency=4 -Q generation,celery
 
-# 3rd terminal — start Celery Beat (periodic task scheduler)
+# 3rd terminal â€” start Celery Beat (periodic task scheduler)
 uv run celery -A app.celery_app.app beat --loglevel=info
 ```
 
@@ -152,9 +152,9 @@ pnpm dev
 
 ---
 
-### 🔧 Configuration · required secrets in `backend/.env`
+### ðŸ”§ Configuration Â· required secrets in `backend/.env`
 
-After `cp backend/.env.example backend/.env`, **fill in every `your_*` placeholder below** — generation jobs will fail otherwise:
+After `cp backend/.env.example backend/.env`, **fill in every `your_*` placeholder below** â€” generation jobs will fail otherwise:
 
 ```env
 # ===== Core =====
@@ -172,22 +172,22 @@ RUNPOD_API_KEY=your_runpod_api_key_here    # https://www.runpod.io/console/user/
 RUNPOD_ENDPOINT_ID=your_endpoint_id_here   # Serverless endpoint ID that hosts the ComfyUI workflow.
 
 # ===== Cloud Storage (MANDATORY) =====
-R2_ACCOUNT_ID=your_account_id              # Cloudflare Dashboard → R2 → Account Details
+R2_ACCOUNT_ID=your_account_id              # Cloudflare Dashboard â†’ R2 â†’ Account Details
 R2_ACCESS_KEY_ID=your_access_key
 R2_SECRET_ACCESS_KEY=your_secret_key
 R2_BUCKET=pixelforge-assets
 R2_PUBLIC_URL=https://your-public-domain.r2.dev
 ```
 
-> 📌 **Production tip:** Bind `R2_PUBLIC_URL` to a custom domain (e.g. `assets.pixelforge.io`) and enable a Cloudflare Cache Rule that caches PNG sprite sheets for 7 days — this further cuts R2 GET costs and reduces CDN TTFB.
+> ðŸ“Œ **Production tip:** Bind `R2_PUBLIC_URL` to a custom domain (e.g. `assets.pixelforge.io`) and enable a Cloudflare Cache Rule that caches PNG sprite sheets for 7 days â€” this further cuts R2 GET costs and reduces CDN TTFB.
 
 ---
 
-## 🚀 Quick Start · end-to-end in 5 minutes
+## ðŸš€ Quick Start Â· end-to-end in 5 minutes
 
 > This section assumes you already chose **Option A** above, every container is `healthy`, and the RunPod + R2 secrets in `backend/.env` are correctly populated.
 
-**Step 1 · Verify the aggregate health check**
+**Step 1 Â· Verify the aggregate health check**
 
 ```bash
 curl -s http://localhost:8000/health
@@ -205,7 +205,7 @@ curl -s http://localhost:8000/health
 }
 ```
 
-**Step 2 · Submit a sprite-sheet generation job**
+**Step 2 Â· Submit a sprite-sheet generation job**
 
 ```bash
 curl -s -X POST http://localhost:8000/api/v1/generate \
@@ -219,7 +219,7 @@ curl -s -X POST http://localhost:8000/api/v1/generate \
   }'
 ```
 
-**Expected JSON response** (returns immediately — the job runs asynchronously):
+**Expected JSON response** (returns immediately â€” the job runs asynchronously):
 
 ```json
 {
@@ -231,17 +231,17 @@ curl -s -X POST http://localhost:8000/api/v1/generate \
 }
 ```
 
-**Step 3 · Visualise the finished artwork in the browser**
+**Step 3 Â· Visualise the finished artwork in the browser**
 
 Open [`http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6`](http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6). You should see:
 
-- A live progress bar at the top (WebSocket-driven, typically 0 % → 100 % in ~ 50 s).
+- A live progress bar at the top (WebSocket-driven, typically 0 % â†’ 100 % in ~ 50 s).
 - A PixiJS Canvas preview in the middle: switch among the 4 directions, play / pause animation, scrub to a single frame.
 - An **Export Sprite Sheet** button in the bottom-right corner to download a transparent-alpha PNG.
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+## ðŸ—ï¸ Architecture & Tech Stack
 
 ```mermaid
 graph TD
@@ -284,60 +284,60 @@ graph TD
 
 ---
 
-## 📚 API Endpoints Overview
+## ðŸ“š API Endpoints Overview
 
 | Method | Endpoint | Description | Auth |
 | :--- | :--- | :--- | :--- |
 | `GET`  | `/health` | Aggregate health (DB + Redis + live Worker count) | No |
 | `POST` | `/api/v1/auth/register` | Register a new user (email + bcrypt-hashed password stored in Postgres) | No |
 | `POST` | `/api/v1/auth/login` | Exchange credentials for a JWT access token | No |
-| `POST` | `/api/v1/generate` | Submit a sprite generation job (returns `task_id` + ETA) | ✅ Bearer JWT |
-| `GET`  | `/api/v1/tasks/{task_id}` | Fetch job status + progress + signed R2 download URL for the finished sheet | ✅ Bearer JWT |
-| `GET`  | `/api/v1/tasks` | Paginated list of the current user's historical jobs | ✅ Bearer JWT |
-| `WS`   | `/ws/task/{task_id}` | WebSocket stream of progress events (queued / 0–100 / done / failed) | No (the opaque task_id acts as the secret) |
+| `POST` | `/api/v1/generate` | Submit a sprite generation job (returns `task_id` + ETA) | âœ… Bearer JWT |
+| `GET`  | `/api/v1/tasks/{task_id}` | Fetch job status + progress + signed R2 download URL for the finished sheet | âœ… Bearer JWT |
+| `GET`  | `/api/v1/tasks` | Paginated list of the current user's historical jobs | âœ… Bearer JWT |
+| `WS`   | `/ws/task/{task_id}` | WebSocket stream of progress events (queued / 0â€“100 / done / failed) | No (the opaque task_id acts as the secret) |
 
 Complete OpenAPI request/response schemas and interactive Try-It-Out examples: Swagger UI at [`/docs`](http://localhost:8000/docs).
 
 ---
 
-## 📂 Directory Structure
+## ðŸ“‚ Directory Structure
 
 ```text
 pixelForge/
-├── frontend/                      # Next.js 16 App Router (pnpm 10.25)
-│   ├── src/
-│   │   ├── app/                   # App Router pages (generate/, tasks/, auth/login, …)
-│   │   ├── components/            # UI + PixiJS Canvas + R3F preview components
-│   │   ├── hooks/                 # React hooks: useWebSocketTask, useSpritePlayer
-│   │   ├── lib/                   # API client, helpers, R2 download utilities
-│   │   └── types/                 # TS interfaces (Task / SpriteSheet / Frame)
-│   ├── public/                    # Static placeholders, favicon
-│   ├── package.json               # packageManager = pnpm@10.25.0
-│   └── Dockerfile                 # Multi-stage: pnpm install → next build → production runner
-├── backend/                       # FastAPI + uv backend
-│   ├── app/
-│   │   ├── api/routes/            # auth / generation / health (one file per route)
-│   │   ├── celery_app/            # Celery Worker + Beat entrypoints; `generation` task definitions
-│   │   ├── core/                  # Settings, security (JWT + bcrypt), CORS configuration
-│   │   ├── models/                # SQLAlchemy ORM models: User / Task / RefreshToken
-│   │   ├── services/              # RunPod wrapper, R2 storage wrapper, WS manager
-│   │   ├── config.py              # pydantic-settings env variable declarations
-│   │   └── main.py                # FastAPI lifespan + router includes + WS endpoint
-│   ├── alembic/                   # Database migrations (SQLAlchemy → Alembic)
-│   ├── pyproject.toml             # Dependency manifest (uv + hatchling build backend)
-│   ├── .env.example               # Required secrets template (copy → .env)
-│   └── Dockerfile                 # Multi-stage: uv sync → uvicorn / celery entrypoints
-├── shared/                        # Cross-stack shared type definitions & constants (WIP)
-├── docker-compose.yml             # 7-service orchestration (pg/redis/api/worker/beat/flower/frontend)
-├── .gitignore
-└── README.md / README_EN.md
+â”œâ”€â”€ frontend/                      # Next.js 16 App Router (pnpm 10.25)
+â”‚   â”œâ”€â”€ src/
+â”‚   â”‚   â”œâ”€â”€ app/                   # App Router pages (generate/, tasks/, auth/login, â€¦)
+â”‚   â”‚   â”œâ”€â”€ components/            # UI + PixiJS Canvas + R3F preview components
+â”‚   â”‚   â”œâ”€â”€ hooks/                 # React hooks: useWebSocketTask, useSpritePlayer
+â”‚   â”‚   â”œâ”€â”€ lib/                   # API client, helpers, R2 download utilities
+â”‚   â”‚   â””â”€â”€ types/                 # TS interfaces (Task / SpriteSheet / Frame)
+â”‚   â”œâ”€â”€ public/                    # Static placeholders, favicon
+â”‚   â”œâ”€â”€ package.json               # packageManager = pnpm@10.25.0
+â”‚   â””â”€â”€ Dockerfile                 # Multi-stage: pnpm install â†’ next build â†’ production runner
+â”œâ”€â”€ backend/                       # FastAPI + uv backend
+â”‚   â”œâ”€â”€ app/
+â”‚   â”‚   â”œâ”€â”€ api/routes/            # auth / generation / health (one file per route)
+â”‚   â”‚   â”œâ”€â”€ celery_app/            # Celery Worker + Beat entrypoints; `generation` task definitions
+â”‚   â”‚   â”œâ”€â”€ core/                  # Settings, security (JWT + bcrypt), CORS configuration
+â”‚   â”‚   â”œâ”€â”€ models/                # SQLAlchemy ORM models: User / Task / RefreshToken
+â”‚   â”‚   â”œâ”€â”€ services/              # RunPod wrapper, R2 storage wrapper, WS manager
+â”‚   â”‚   â”œâ”€â”€ config.py              # pydantic-settings env variable declarations
+â”‚   â”‚   â””â”€â”€ main.py                # FastAPI lifespan + router includes + WS endpoint
+â”‚   â”œâ”€â”€ alembic/                   # Database migrations (SQLAlchemy â†’ Alembic)
+â”‚   â”œâ”€â”€ pyproject.toml             # Dependency manifest (uv + hatchling build backend)
+â”‚   â”œâ”€â”€ .env.example               # Required secrets template (copy â†’ .env)
+â”‚   â””â”€â”€ Dockerfile                 # Multi-stage: uv sync â†’ uvicorn / celery entrypoints
+â”œâ”€â”€ shared/                        # Cross-stack shared type definitions & constants (WIP)
+â”œâ”€â”€ docker-compose.yml             # 7-service orchestration (pg/redis/api/worker/beat/flower/frontend)
+â”œâ”€â”€ .gitignore
+â””â”€â”€ README.md / README_EN.md
 ```
 
 ---
 
-## 🤝 Contributing
+## ðŸ¤ Contributing
 
-> PixelForge is a **new** open-source project — every Issue / PR / Feature Request is warmly appreciated 🙏
+> PixelForge is a **new** open-source project â€” every Issue / PR / Feature Request is warmly appreciated ðŸ™
 
 **Getting started as a contributor:**
 
@@ -347,7 +347,7 @@ git clone https://github.com/<YOUR_USERNAME>/pixelForge.git
 cd pixelForge
 
 # 2. Boot middleware + Backend (uv sync) + Frontend (pnpm install)
-#    → see Installation → Option B above for the per-terminal commands
+#    â†’ see Installation â†’ Option B above for the per-terminal commands
 
 # 3. Create a branch (convention: feat/xxx, fix/yyy, docs/zzz)
 git checkout -b feat/support-sprite-sheet-auditing
@@ -363,15 +363,15 @@ No idea where to begin? Check the [Good First Issue list](https://github.com/Mei
 
 ---
 
-## 🔒 Security
+## ðŸ”’ Security
 
 ### Non-negotiable hardening checklist for production deployments
 
 - Set `APP_ENV=production` **and** `DEBUG=false`.
-- `CORS_ORIGINS` must only list **your frontend domain(s)** — never wildcard `*` in production.
-- Keep `backend/.env` at mode `0600` (owner read/write only). The file is already `.gitignore`d — double-check before the first commit.
+- `CORS_ORIGINS` must only list **your frontend domain(s)** â€” never wildcard `*` in production.
+- Keep `backend/.env` at mode `0600` (owner read/write only). The file is already `.gitignore`d â€” double-check before the first commit.
 - Terminate TLS at the reverse proxy in front of the API (Let's Encrypt + Nginx or Cloudflare Full (Strict) SSL).
-- Postgres and Redis should **never publish public ports**. Expose only: 3000 (Frontend), 8000 (API), 5555 (Flower — ideally bind to the internal / VPN interface only).
+- Postgres and Redis should **never publish public ports**. Expose only: 3000 (Frontend), 8000 (API), 5555 (Flower â€” ideally bind to the internal / VPN interface only).
 
 ### Vulnerability disclosure
 
@@ -383,14 +383,14 @@ We reply within **48 hours** for the first acknowledgement; critical bugs get a 
 
 ---
 
-## 📄 License
+## ðŸ“„ License
 
 **PixelForge** is released under the **MIT License**. That means:
 
-- ✅ You may freely modify, use commercially, or re-distribute PixelForge in source or binary form (open or closed source).
-- ✅ A copy of the MIT license text plus the copyright notice below must be preserved in derivative works.
-- ❌ The authors accept no liability for any direct or indirect damages arising from use.
+- âœ… You may freely modify, use commercially, or re-distribute PixelForge in source or binary form (open or closed source).
+- âœ… A copy of the MIT license text plus the copyright notice below must be preserved in derivative works.
+- âŒ The authors accept no liability for any direct or indirect damages arising from use.
 
-**Copyright:** Copyright (c) 2025–2026 PixelForge Contributors. All Rights Reserved.
+**Copyright:** Copyright (c) 2025â€“2026 PixelForge Contributors. All Rights Reserved.
 
 Full license text: [`LICENSE`](LICENSE).

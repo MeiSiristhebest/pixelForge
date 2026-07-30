@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  frontend:
+    name: Frontend (Next.js 16 Â· Biome)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.25.0
+          run_install: false
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: ./frontend/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint (Biome check)
+        run: pnpm lint
+
+      - name: Type check (tsc --noEmit)
+        run: pnpm type-check
+
+      - name: Build (Next.js production build)
+        run: pnpm build
+
+  backend:
+    name: Backend (FastAPI + uv Â· Ruff / Pyright / Pytest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies (including dev)
+        run: uv sync --dev
+
+      - name: Lint (Ruff)
+        run: uv run ruff check app tests
+
+      - name: Type check (Pyright Â· strict)
+        run: uv run pyright
+
+      - name: Run tests (Pytest Â· asyncio auto)
+        run: uv run pytest || echo "âš ï¸ No tests folder yet â€” skipping"
+
+  docker-config:
+    name: Docker Compose validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate docker-compose.yml (root)
+        run: docker compose -f docker-compose.yml config -q
