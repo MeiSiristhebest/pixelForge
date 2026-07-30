@@ -18,60 +18,60 @@
 ---
 
 <p align="center">
-  <a href="README.md">ðŸ‡¨ðŸ‡³ ä¸­æ–‡</a> &nbsp;Â·&nbsp; <a href="README_EN.md">ðŸ‡ºðŸ‡¸ English</a>
+  <a href="README.md">🇨🇳 中文</a> &nbsp;·&nbsp; <a href="README_EN.md">🇺🇸 English</a>
 </p>
 
 ---
 
-## ðŸŒŸ About
+## 🌟 About
 
-PixelForge æ˜¯ä¸€ä¸ªé¢å‘å¯¹ç‹¬ç«‹æ¸¸æˆå¼€å‘è€…ä¸Žåƒç´ ç¾Žæœ¯çˆ±å¥½è€…çš„**ç«¯åˆ°ç«¯ AI åƒç´ è§’è‰²ç”Ÿæˆ SaaS å¹³å°**ã€‚
+PixelForge 是一个面向独立游戏开发者与像素美术爱好者的**端到端 AI 像素角色生成 SaaS 平台**。
 
-åœ¨ä¼ ç»Ÿçš„åƒç´ è§’è‰²å·¥ä½œæµä¸­ï¼Œä»Žé›¶è®¾è®¡ä¸€ä¸ªå¤šæ–¹å‘ã€å¤šå¸§åŠ¨ä½œçš„ç²¾ç�µå›¾é€šå¸¸éœ€è¦æ•°å°æ—¶çš„æ‰‹ç»˜ä¸ŽåŠ¨ç”»è°ƒæ•´â€”â€”**è€Œ PixelForge å°†è¿™ä¸ªè¿‡ç¨‹åŽ‹ç¼©åˆ° 60 ç§’ä»¥å†…**ã€‚ç”¨æˆ·åªéœ€å¡«å†™é£Žæ ‡æ��ç¤ºè¯ä¸Žéšæœºç§å­ï¼Œç³»ç»Ÿå³å¯ï¼š
+在传统的像素角色工作流中，从零设计一个多方向、多帧动作的精灵图通常需要数小时的手绘与动画调整——**而 PixelForge 将这个过程压缩到 60 秒以内**。用户只需填写风格提示词与随机种子，系统即可：
 
-1. é€šè¿‡ Serverless ComfyUI å·¥ä½œæµè°ƒç”¨ RunPod GPU ç”Ÿæˆå¤šæ–¹å‘åƒç´ ç²¾ç�µå›¾
-2. ç”± Celery å¼‚æ­¥é˜Ÿåˆ—ç®¡ç†å¤§è§„æ¨¡ç”Ÿæˆä»»åŠ¡å¹¶æµå¼å¼ç¨‹è¿›åº¦
-3. å‰ç«¯ PixiJS Canvas å®žæ—¶æ’­æ”¾å¸§åŠ¨ç”»ã€å¯¼å‡ºç²¾ç�µå›¾ä¸é€å¸§æ£€æŸ¥
-4. ç”Ÿæˆäº§ç‰©è‡ªåŠ¨å­˜å…¥ Cloudflare R2 å¯¹è±¡å­˜å‚¨ï¼Œå…¨çƒè¾¹ç¼˜èŠ‚ç‚¹ä½Žå»¶è¿Ÿåˆ†å
+1. 通过 Serverless ComfyUI 工作流调用 RunPod GPU 生成多方向像素精灵图
+2. 由 Celery 异步队列管理大规模生成任务并流式推送进度
+3. 前端 PixiJS Canvas 实时播放帧动画、导出精灵图与逐帧检查
+4. 生成产物自动存入 Cloudflare R2 对象存储，全球边缘节点低延迟分发
 
-> **ä¸ºä»€ä¹ˆæˆ‘ä»¬ä¸ç›´æŽ¥ç”¨ Midjourney / DALLÂ·Eï¼Ÿ** é€šç”¨æ–‡ç”Ÿå›¾æ¨¡åž‹åœ¨åƒç´ ç”»é¢†åŸŸå­˜åœ¨ä¸‰ä¸ªéš»ä»¥å…‹æœçš„å·¥ç¨‹ç“¶é¢ˆï¼šéš»ä»¥ä¿è¯æ–¹å‘ä¸€è‡´æ€§ï¼ˆå¸¸è§£æ­é¢/èƒŒé¢æ¯ä¾‹å´©å��ï¼‰ã€æ— æ³•ç›´æŽ¥å¯¼å‡ºå¸é€æ˜Žé€šé“çš„é€å¸§ç²¾ç�µå›¾ã€ä»¥åŠ ä¸æ”¯æŒç¨‹åºåŒ–çš„æ‰¹é‡ç§å­é‡ŽçŽ°ã€‚PixelForge é’ˆå¯¹ ComfyUI å·¥ä½œæµè¿›è¡Œäº†ä¸“é—¨çš„åƒç´ é£Žæ ¼ LoRA å›ºåŒ–ä¸ŽåŽå¤ç†ç®¡çº¿ï¼Œå°±æ˜¯ä¸ºäº†è§£å†³è¿™ä¸‰ä¸ªé€šç”¨æ–¹æ³•æ— æ³•è¦†ç›–çš„åž‚ç›´åœºæ™¯ç—›ç‚¹ã€‚
+> **为什么我们不直接用 Midjourney / DALL·E？** 通用文生图模型在像素画领域存在三个难以克服的工程瓶颈：难以保证方向一致性（常见正面/背面比例崩坏）、无法直接导出带透明通道的逐帧精灵图、以及不支持程序化的批量种子复现。PixelForge 针对 ComfyUI 工作流进行了专门的像素风格 LoRA 固化与后处理管线，就是为了解决这三个通用方案无法覆盖的垂直场景痛点。
 
 ---
 
-## âœ¨ Key Features
+## ✨ Key Features
 
 | Feature | Description | Trade-off Note |
 |---------|-------------|----------------|
-| **âš¡ AI å¤šæ–¹å‘ç²¾ç�µå›¾ç”Ÿæˆ** | åŸºäºŽ ComfyUI è‡ªå®šä¹‰å·¥ä½œæµ + RunPod Serverless GPUï¼Œæ”¯æŒæ­é¢/èƒŒé¢/ä¾§é¢ 4 å‘ä¸€è‡´æ€è¾“å‡º | âš ï¸ ç”Ÿæˆè´¨é‡Œé«˜åº¦ä¾èµ– RunPort ç«¯ç‚¹çš„ LoRA æ�ƒé‡ä¸Žå·¥ä½œæµç‰ˆæœ¬ |
-| **ðŸ”„ WebSocket å®žæ—¶è¿›åº¦æµ** | ä»»åŠ¡çŠ¶æ€ï¼ˆæŽ’é˜Ÿ/ç”Ÿæˆä¸­/å®Œæˆ/å¤±è´¥ï¼‰ç§’çº§æŽ¨é€ï¼Œæ— è®ºè¯¢å¼€é”€ | âš ï¸ æµè§ˆå™¨æ ‡ç­¾é¡µä¼‘çœ æ—¶éœ€æ‰‹åŠ¨é‡è¿ž |
-| **ðŸ–¼ï¸ PixiJS ç²¾ç�µå›¾é¢„è§ˆå™¨** | æ”¯æŒé€å¸§æ’­æ”¾ã€é€Ÿåº¦è°ƒèŠ‚ã€å•å¸§æ£€æŸ¥ã€æ•´é¡µç²¾ç�µå›¾ PNG å¯¼å‡º | âš ï¸ 8 æ–¹å‘ä»¥ä¸Šçš„è¶…å¤§ç²¾ç�µå›¾åœ¨ç§»åŠ¨è®¾å¤ Safari ä¸Šå¯èƒ½å‡ºçŽ°æŽ‰å¸§ |
-| **ðŸš€ Celery å¼‚æ­¥ä»»åŠ¡ç¼–æŽ’** | åŸºäºŽ Redis çš„ Celery Worker + Beat + Flowerï¼Œæ”¯æŒç”Ÿæˆä¸ŽåŽå¤ç†å¤šé˜Ÿåˆ—å¹¶å‘è°ƒåº¦ | âš ï¸å• Worker é»˜è®¤å¹¶å‘ 4ï¼Œè¶…é«˜å¹¶å‘œåœºæ™¯éœ€æ°´å¹³æ‰©å®¹ Worker å®žä¾‹ |
-| **â˜ï¸ Cloudflare R2 è¾¹ç¼˜å­˜å‚¨** | S3 å…¼å®¹ APIï¼Œå…¨çƒ 300+ èŠ‚ç‚¹åˆ†åï¼Œ0 å‡ºç«™æµé‡è´¹ | âš ï¸ å°æ–‡ä»¶æ‰¹é‡ä¸Šä¼ éœ€èµ° S3 Batchï¼Œå•æ¬¡ PUT å�žåå—æœ‰ä¸Šé™ |
-| **ðŸ³ ä¸€é”®å®¹å™¨åŒ–ç¼–æŽ’** | Docker Compose å¯åŠ¨ 7 ä¸ªå¾®æœåŠ¡ï¼ˆPostgres/Redis/API/Worker/Beat/Flower/Frontendï¼‰ | âš ï¸ æœ¬åœ°å¼€å‘é•œåƒå¤§å°çº¦ 4.2GBï¼Œé¦–æ¬¡æ‹‰åè¦éœ€è¦ç¨³å®šç½‘ç»œ |
+| **⚡ AI 多方向精灵图生成** | 基于 ComfyUI 自定义工作流 + RunPod Serverless GPU，支持正面/背面/侧面 4 向一致性输出 | ⚠️ 生成质量高度依赖 RunPod 端点的 LoRA 权重与工作流版本 |
+| **🔄 WebSocket 实时进度流** | 任务状态（排队/生成中/完成/失败）秒级推送，无轮询开销 | ⚠️ 浏览器标签页休眠时需手动重连 |
+| **🖼️ PixiJS 精灵图预览器** | 支持逐帧播放、速度调节、单帧检查、整页精灵图 PNG 导出 | ⚠️ 8 方向以上的超大精灵图在移动设备 Safari 上可能出现掉帧 |
+| **🚀 Celery 异步任务编排** | 基于 Redis 的 Celery Worker + Beat + Flower，支持生成与后处理多队列并发调度 | ⚠️ 单 Worker 默认并发 4，超高并发场景需水平扩容 Worker 实例 |
+| **☁️ Cloudflare R2 边缘存储** | S3 兼容 API，全球 300+ 节点分发，0 出站流量费 | ⚠️ 小文件批量上传需走 S3 Batch，单次 PUT 吞吐有上限 |
+| **🐳 一键容器化编排** | Docker Compose 启动 7 个微服务（Postgres/Redis/API/Worker/Beat/Flower/Frontend） | ⚠️ 本地开发镜像大小约 4.2GB，首次拉取需要稳定网络 |
 
 ---
 
-## âš™ï¸ Requirements
+## ⚙️ Requirements
 
-è¿è¡Œ PixelForge ä¹‹å‰ï¼Œè¯·ç¡®è®¤ä½ æœ¬åœ°æˆ–æœåŠ¡å™¨å·²å®‰è£…ï¼š
+运行 PixelForge 之前，请确认你本地或服务器已安装：
 
 | Prerequisite | Minimum Version | Notes |
 |-------------|-----------------|-------|
-| **Docker** | â‰¥ 24.0 + Compose v2 | æŽ¨èæ–¹å¼ï¼›7 ä¸ªå¾®æœåŠ¡ç»Ÿä¸€ç¼–æŽ’ |
-| **Node.js** | â‰¥ 22ï¼ˆæŽ¨è æ–°é—» 22 LTSï¼‰ | ä»…æœ¬åœ°æ‰‹åŠ¨æž„å»º Frontend æ—¶éœ€è¦ |
-| **pnpm** | â‰¥ 10.25.0 | ä¸Ž `frontend/package.json` `packageManager` å­—æ®µå¯¹é½ |
-| **uv** | â‰¥ 0.4 | ä»…æœ¬åœ°æ‰‹åŠ¨æž„å»º Backend æ—¶éœ€è¦ï¼ˆæ›¿ä»£ pip + venvï¼‰ |
-| **Python** | â‰¥ 3.12 | ç”± uv è‡ªåŠ¨ç®¡ç†ï¼Œæ— éœ€æ‰‹åŠ¨å¤ç |
-| **RunPod è´¦æˆ·** | â€” | éœ€è¦ API Key + Endpoint IDï¼ˆéƒ¨ç½² ComfyUI å·¥ä½œæµï¼‰ |
-| **Cloudflare R2** | â€” | éœ€è¦ Account ID / Access Key / Bucketï¼ˆå­˜å‚¨ç”Ÿæˆäº§ç‰©ï¼‰ |
+| **Docker** | ≥ 24.0 + Compose v2 | 推荐方式；7 个微服务统一编排 |
+| **Node.js** | ≥ 22（推荐 22 LTS） | 仅本地手动构建 Frontend 时需要 |
+| **pnpm** | ≥ 10.25.0 | 与 `frontend/package.json` `packageManager` 字段对齐 |
+| **uv** | ≥ 0.4 | 仅本地手动构建 Backend 时需要（替代 pip + venv） |
+| **Python** | ≥ 3.12 | 由 uv 自动管理，无需手动处理 |
+| **RunPod 账户** | — | 需要 API Key + Endpoint ID（部署 ComfyUI 工作流） |
+| **Cloudflare R2** | — | 需要 Account ID / Access Key / Bucket（存储生成产物） |
 
 ---
 
-## ðŸ“¦ Installation
+## 📦 Installation
 
-### Option Aï¼šDocker Composeï¼ˆæŽ¨èï¼Œé›¶çŽ¯å¢ƒä¾èµ–ï¼‰
+### Option A：Docker Compose（推荐，零环境依赖）
 
-å¯åŠ¨ 7 ä¸ªå¾®æœåŠ¡ï¼šPostgreSQL 16ã€Redis 7ã€FastAPIã€Celery Workerã€Celery Beatã€Flower ç›‘æŽ§ã€Next.js å‰ç«¯ã€‚
+启动 7 个微服务：PostgreSQL 16、Redis 7、FastAPI、Celery Worker、Celery Beat、Flower 监控、Next.js 前端。
 
 ```bash
 # 1. Clone the repository
@@ -85,7 +85,7 @@ cp backend/.env.example backend/.env
 docker compose up -d
 ```
 
-**å¯åŠ¨æˆåŠŸåŽè®¿é—®ïš**
+**启动成功后访问：**
 
 | Service | URL |
 |---------|-----|
@@ -96,7 +96,7 @@ docker compose up -d
 | PostgreSQL (direct) | `postgresql://pixelforge:pixelforgepass@localhost:5432/pixelforge` |
 | Redis (direct) | `redis://localhost:6379/0` |
 
-åœæ­¢ä¸Žæ¸…ç†ï¼š
+停止与清理：
 
 ```bash
 # Stop all services (keep volumes)
@@ -108,53 +108,53 @@ docker compose down -v
 
 ---
 
-### Option Bï¼šæœ¬åœ°æ‰‹åŠ¨æ‘å»ºï¼ˆé€‚å�ˆäºŒæ¬¡å¼€å‘/è°ƒè¯•ï¼‰
+### Option B：本地手动搭建（适合二次开发/调试）
 
-ä»…æŽ¨èåœ¨éœ€è¦å•æ­¥è°ƒè¯• AI å·¥ä½œæµˆæˆ–å‰ç«¯çƒ­æ›´æ–°æ—¶ä½¿ç”¨ã€‚
+仅推荐在需要单步调试 AI 工作流或前端热更新时使用。
 
-#### 1. å¯åŠ¨åŸºç¡€ä»‹è´¨
+#### 1. 启动基础中间件
 
 ```bash
 cd pixelForge
 docker compose up -d postgres redis
 ```
 
-#### 2. å¯åŠ¨ FastAPI + Celeryï¼ˆBackendï¼‰
+#### 2. 启动 FastAPI + Celery（Backend）
 
 ```bash
 cd backend
 
-# ç”¨ uv åˆ›å»ºè™šæ‹ŸçŽ¯å¢ƒ + å®‰è£…ä¾èµ–ï¼ˆreplaces pip + venvï¼‰
+# 用 uv 创建虚拟环境 + 安装依赖（replaces pip + venv）
 uv sync --dev
 
-# å¯åŠ¨ FastAPIï¼ˆçƒ­é‡è½½ï¼Œç«¯å�£ 8000ï¼‰
+# 启动 FastAPI（热重载，端口 8000）
 uv run uvicorn app.main:app --reload --port 8000
 
-# æ–°ç»ˆç«¯ 1ï¼šå¯åŠ¨ Celery Workerï¼ˆ4 å¹¶å‘ï¼Œé˜Ÿåˆ—ï¼šgeneration + celeryï¼‰
+# 新终端 1：启动 Celery Worker（4 并发，队列：generation + celery）
 uv run celery -A app.celery_app.app worker --loglevel=info --concurrency=4 -Q generation,celery
 
-# æ–°ç»ˆç«¯ 2ï¼šå¯åŠ¨ Celery Beatï¼ˆå®šæ—¶ä»»åŠ¡è°ƒåº¦ï¼‰
+# 新终端 2：启动 Celery Beat（定时任务调度）
 uv run celery -A app.celery_app.app beat --loglevel=info
 ```
 
-#### 3. å¯åŠ¨ Next.js 16ï¼ˆFrontendï¼‰
+#### 3. 启动 Next.js 16（Frontend）
 
 ```bash
 cd frontend
 
-# å®‰è£…ä¾èµ–ï¼ˆpnpm 10.25ï¼Œå·²é”ç‰ˆæœ¬ï¼‰
+# 安装依赖（pnpm 10.25，已锁版本）
 pnpm install
 
-# å¯åŠ¨å¼€å‘æœåŠ¡å™¨ï¼ˆTurbopack åŠ é€Ÿï¼Œç«¯å�£ 3000ï¼‰
+# 启动开发服务器（Turbopack 加速，端口 3000）
 pnpm dev
-# ç­‰ä»·äºŽ next dev --turbopack
+# 等价于 next dev --turbopack
 ```
 
 ---
 
-### ðŸ”§ Configurationï¼ˆ`backend/.env` å¿…å¡«å¯†é’¥ï¼‰
+### 🔧 Configuration（`backend/.env` 必填密钥）
 
-`cp backend/.env.example backend/.env` åŽï¼Œå¿…é¡»å¡«å†™ä»¥ä¸‹å¸¦ `your_*` å—ä½ç¬¦çš„å­—æ®µï¼š
+`cp backend/.env.example backend/.env` 后，必须填写以下带 `your_*` 占位符的字段：
 
 ```env
 # ===== Core =====
@@ -167,33 +167,33 @@ DATABASE_URL=postgresql+asyncpg://pixelforge:pixelforgepass@postgres:5432/pixelf
 CELERY_BROKER_URL=redis://redis:6379/0
 CELERY_RESULT_BACKEND=redis://redis:6379/1
 
-# ===== AI Execution (å¿…å¡«) =====
+# ===== AI Execution (必填) =====
 RUNPOD_API_KEY=your_runpod_api_key_here    # https://www.runpod.io/console/user/settings
-RUNPOD_ENDPOINT_ID=your_endpoint_id_here   # Serverless ç«¯ç‚¹ IDï¼ˆComfyUI å·¥ä½œæµï¼‰
+RUNPOD_ENDPOINT_ID=your_endpoint_id_here   # Serverless 端点 ID（ComfyUI 工作流）
 
-# ===== Cloud Storage (å¿…å¡«) =====
-R2_ACCOUNT_ID=your_account_id              # Cloudflare æŽ§åˆ¶å° → R2 → Account Details
+# ===== Cloud Storage (必填) =====
+R2_ACCOUNT_ID=your_account_id              # Cloudflare 控制台 → R2 → Account Details
 R2_ACCESS_KEY_ID=your_access_key
 R2_SECRET_ACCESS_KEY=your_secret_key
 R2_BUCKET=pixelforge-assets
 R2_PUBLIC_URL=https://your-public-domain.r2.dev
 ```
 
-> ðŸ“Œ **ç”Ÿäº§éƒ¨ç½²æ��ç¤º**ï¼šR2_PUBLIC_URL å»ºè®®ç»‘å®šè‡ªå®šä¹‰åŸŸå��ï¼ˆå¦‚ `assets.pixelforge.io`ï¼‰ï¼Œå¹¶å¯ç”¨ Cloudflare Cache Rules ç¼“å­˜ PNG ç²¾ç�µå›¾ 7 å¤©ï¼Œå¯è¿›ä¸€æ­¥é™ä½Ž R2 GET è¯·æ±‚è´¹ç”¨ä¸ CDN é¦–å­—èŠ‚æ—¶å»¶ã€‚
+> 📌 **生产部署提示**：R2_PUBLIC_URL 建议绑定自定义域名（如 `assets.pixelforge.io`），并启用 Cloudflare Cache Rules 缓存 PNG 精灵图 7 天，可进一步降低 R2 GET 请求费用与 CDN 首字节时延。
 
 ---
 
-## ðŸš€ Quick Startï¼ˆ5 åˆ†é’Ÿè·‘é€šç«¯åˆ°ç«¯ï¼‰
+## 🚀 Quick Start（5 分钟跑通端到端）
 
-> å�‡è®¾ä½ å·²ç»�æŒ‰ **Option A** å¯åŠ¨äº†å…¨éƒ¨æœåŠ¡ï¼Œå¹¶åœ¨ `backend/.env` ä¸­æ­£ç¡®å¡«å†™äº† RunPod ä¸ R2 å¯†é’¥ã€‚
+> 假设你已经按 **Option A** 启动了全部服务，并在 `backend/.env` 中正确填写了 RunPod 与 R2 密钥。
 
-**Step 1ï¼šéªŒè¯�å¥åº·æ£€æŸ¥**
+**Step 1：验证健康检查**
 
 ```bash
 curl -s http://localhost:8000/health
 ```
 
-**é¢„æœŸ JSON è¾“å‡º**ï¼š
+**预期 JSON 输出**：
 
 ```json
 {
@@ -205,7 +205,7 @@ curl -s http://localhost:8000/health
 }
 ```
 
-**Step 2ï¼šæ��äº¤ä¸€å¼ ç²¾ç�µå›¾ç”Ÿæˆä»»åŠ¡**
+**Step 2：提交一张精灵图生成任务**
 
 ```bash
 curl -s -X POST http://localhost:8000/api/v1/generate \
@@ -219,7 +219,7 @@ curl -s -X POST http://localhost:8000/api/v1/generate \
   }'
 ```
 
-**é¢„æœŸ JSON è¾“å‡º**ï¼ˆç«‹å³è¿”å›žï¼Œä¸ç­‰å¾…å®Œæˆï¼‰ï¼š
+**预期 JSON 输出**（立即返回，不等待完成）：
 
 ```json
 {
@@ -231,266 +231,160 @@ curl -s -X POST http://localhost:8000/api/v1/generate \
 }
 ```
 
-**Step 3ï¼šæµè§ˆå™¨æŸ¥çœ‹ç»“æœ**
+**Step 3：浏览器查看结果**
 
-æ‰“å¼€ [`http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6`](http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6)ï¼Œå¯ä»¥çœ‹åˆ°ï¼š
+打开 [`http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6`](http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6)，可以看到：
 
-- é¡¶éƒ¨å®žæ—¶è¿›åº¦æ¡†ï¼ˆçº¦ 50s ä»Ž 0% â†’ 100%ï¼ŒWebSocket æŽ¨é€ï¼‰
-- ä¸­éƒ¨ PixiJS Canvas é¢„è§ˆï¼šå¯åˆ‡æ�¢ 4 ä¸ªæ–¹å‘ã€æ’­æ”¾/æš‚å�œåŠ¨ç”»ã€è°ƒåˆ°å•å¸§æŸ¥çœ‹
-- å³ä¸‹è§’ã€ŒExport Sprite Sheetã€�æŒ‰é’®ï¼šç‚¹å‡»ä¸‹è½½é€æ˜Žé€šé“ PNG ç²¾ç�µå›¾
-é:
-  path: LICENSE
-  content: |
-    MIT License
+- 顶部实时进度条（约 50s 从 0% → 100%，WebSocket 推送）
+- 中部 PixiJS Canvas 预览：可切换 4 个方向、播放/暂停动画、调到单帧查看
+- 右下角「Export Sprite Sheet」按钮：点击下载透明通道 PNG 精灵图
 
-    Copyright (c) 2025-2026 PixelForge Contributors
+---
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
+## 🏗️ Architecture & Tech Stack
 
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
+```mermaid
+graph TD
+    C[Client Browser\nNext.js 16 + PixiJS + R3F]
+    F[FastAPI Backend\nPython 3.12 + AsyncPG]
+    R[(Redis 7\nBroker + Result Backend)]
+    W[Celery Workers\nQueue: generation + celery]
+    B[Celery Beat\nPeriodic Task Scheduler]
+    FL[Flower\nTask UI Monitor]
+    AI[RunPod Serverless GPU\nComfyUI Custom Workflow]
+    S3[(Cloudflare R2\nSprite Artifacts)]
+    PG[(PostgreSQL 16\nTask Metadata + Auth)]
 
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
-- path: .github/workflows/ci.yml
-  content: |
-    name: CI
+    C -- HTTP REST / WS --> F
+    F -- Submit Job --> R
+    R -- Process --> W
+    W -- Invoke --> AI
+    W -- Save PNG --> S3
+    F -- Metadata + Auth --> PG
+    B -- Dispatch periodic --> R
+    FL -- Read statuses --> R
 
-    on:
-      push:
-        branches: [main, master]
-      pull_request:
-        branches: [main, master]
-      workflow_dispatch:
+    classDef primary fill:#0ea5e9,stroke:#0369a1,color:#fff;
+    classDef store fill:#10b981,stroke:#065f46,color:#fff;
+    classDef compute fill:#f59e0b,stroke:#92400e,color:#fff;
+    class C,F primary;
+    class R,S3,PG store;
+    class W,B,FL,AI compute;
+```
 
-    jobs:
-      frontend:
-        name: Frontend (Next.js 16 Â· Biome)
-        runs-on: ubuntu-latest
-        defaults:
-          run:
-            working-directory: ./frontend
-        steps:
-          - name: Checkout repository
-            uses: actions/checkout@v4
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | Next.js 16 (App Router, Turbopack)、TypeScript 5.9、Tailwind CSS 4.2、PixiJS 8.6、React Three Fiber (drei)、Framer Motion 12 |
+| **Backend API** | Python 3.12、FastAPI 0.115+、Uvicorn 0.34+、Pydantic v2、SQLAlchemy 2 (async)、Alembic |
+| **Async Task Layer** | Celery 5.4+、Redis 7、Flower 2（Task UI）、Celery Beat（周期调度） |
+| **AI Workflows** | RunPod Serverless GPU Endpoints、ComfyUI 自定义工作流 + 像素风格 LoRA |
+| **Database & Storage** | PostgreSQL 16（`pg_isready` 健康检查 + 数据持久卷）、Cloudflare R2（S3 API，全球边缘分发） |
+| **Auth & Security** | FastAPI OAuth2 + JWT (`python-jose` + `passlib[bcrypt]`)、CORS 白名单 |
+| **DevOps** | Docker 多阶段构建镜像、Docker Compose v2 编排、Ruff（lint+格式化）、Pyright strict（类型检查）、Biome（前端 lint+format） |
 
-          - name: Setup pnpm
-            uses: pnpm/action-setup@v4
-            with:
-              version: 10.25.0
-              run_install: false
+---
 
-          - name: Setup Node.js 22
-            uses: actions/setup-node@v4
-            with:
-              node-version: 22
-              cache: pnpm
-              cache-dependency-path: ./frontend/pnpm-lock.yaml
+## 📚 API Endpoints Overview
 
-          - name: Install dependencies
-            run: pnpm install --frozen-lockfile
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- |
+| `GET`  | `/health` | 综合健康检查（DB + Redis + Worker 数） | No |
+| `POST` | `/api/v1/auth/register` | 用户注册（email + 密码 bcrypt 哈希入 Pg） | No |
+| `POST` | `/api/v1/auth/login` | 登录换取 JWT access token | No |
+| `POST` | `/api/v1/generate` | 提交精灵图生成任务（返回 task_id + ETA） | ✅ Bearer JWT |
+| `GET`  | `/api/v1/tasks/{task_id}` | 查询任务状态 + 进度 + 产物 R2 下载 URL | ✅ Bearer JWT |
+| `GET`  | `/api/v1/tasks` | 分页查询当前用户历史任务列表 | ✅ Bearer JWT |
+| `WS`   | `/ws/task/{task_id}` | WebSocket 实时流式推送 progress（排队 / 0~100 / 完成 / 失败） | No（task_id 保密即可） |
 
-          - name: Lint (Biome check)
-            run: pnpm lint
+更完整的 Request / Response Schema 示例请访问 Swagger：[`/docs`](http://localhost:8000/docs)。
 
-          - name: Type check (tsc --noEmit)
-            run: pnpm type-check
+---
 
-          - name: Build (Next.js production build)
-            run: pnpm build
+## 📂 Directory Structure
 
-      backend:
-        name: Backend (FastAPI + uv Â· Ruff / Pyright / Pytest)
-        runs-on: ubuntu-latest
-        defaults:
-          run:
-            working-directory: ./backend
-        steps:
-          - name: Checkout repository
-            uses: actions/checkout@v4
+```text
+pixelForge/
+├── frontend/                      # Next.js 16 App Router 前端（pnpm 10.25）
+│   ├── src/
+│   │   ├── app/                   # App Router 页面 (generate/, tasks/, auth/login, ...)
+│   │   ├── components/            # UI + PixiJS Canvas + R3F 预览组件
+│   │   ├── hooks/                 # React hooks：useWebSocketTask、useSpritePlayer
+│   │   ├── lib/                   # API client、工具函数、R2 下载 helpers
+│   │   └── types/                 # TypeScript 类型声明（Task / SpriteSheet / Frame）
+│   ├── public/                    # 静态占位图、favicon
+│   ├── package.json               # packageManager = pnpm@10.25.0
+│   └── Dockerfile                 # 多阶段：pnpm install → next build → production runner
+├── backend/                       # FastAPI + uv 后端
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── routes/            # auth / generation / health（每个路由独立文件）
+│   │   ├── celery_app/            # Celery Worker + Beat 入口、generation 任务定义
+│   │   ├── core/                  # 配置、安全（JWT + bcrypt）、CORS 设置
+│   │   ├── models/                # SQLAlchemy ORM 模型：User / Task / RefreshToken
+│   │   ├── services/              # RunPod Wrapper、R2 Storage Wrapper、WS Manager
+│   │   ├── config.py              # pydantic-settings 环境变量声明
+│   │   └── main.py                # FastAPI lifespan + Router include + WS endpoint
+│   ├── alembic/                   # 数据库 Migration（SQLAlchemy → Alembic）
+│   ├── pyproject.toml             # 依赖声明（uv + hatchling build backend）
+│   ├── .env.example               # 必填密钥模板（复制为 .env 使用）
+│   └── Dockerfile                 # 多阶段：uv sync → uvicorn / celery 启动入口
+├── shared/                        # 跨前后端共享的类型定义与常量（WIP）
+├── docker-compose.yml             # 7 服务编排（pg/redis/api/worker/beat/flower/frontend）
+├── .gitignore
+└── README.md
+```
 
-          - name: Setup uv
-            uses: astral-sh/setup-uv@v3
-            with:
-              enable-cache: true
+---
 
-          - name: Setup Python 3.12
-            uses: actions/setup-python@v5
-            with:
-              python-version: 3.12
+## 🤝 Contributing
 
-          - name: Install dependencies (including dev)
-            run: uv sync --dev
+> 这是一个新起的开源项目，所有 Issue / PR / Feature Request 都极其欢迎 🙏
 
-          - name: Lint (Ruff)
-            run: uv run ruff check app tests
+**快速上手开发**：
 
-          - name: Type check (Pyright Â· strict)
-            run: uv run pyright
+```bash
+# 1. Fork & Clone
+git clone https://github.com/<YOUR_USERNAME>/pixelForge.git
+cd pixelForge
 
-          - name: Run tests (Pytest Â· asyncio auto)
-            run: uv run pytest || echo "âš ï¸ No tests folder yet â€” skipping"
+# 2. 启动中间件 + Backend（uv sync）+ Frontend（pnpm install）
+# 参见 Installation → Option B
 
-      docker-config:
-        name: Docker Compose validation
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout repository
-            uses: actions/checkout@v4
+# 3. 创建分支（惯例：feat/xxx、fix/yyy、docs/zzz）
+git checkout -b feat/support-sprite-sheet-auditing
 
-          - name: Validate docker-compose.yml (root)
-            run: docker compose -f docker-compose.yml config -q
-- path: .github/workflows/deploy.yml
-  content: |
-    name: Deploy (Frontend â†’ Vercel Â· Backend â†’ GHCR)
+# 4. 跑 lint / typecheck（前后端各跑一套）
+cd backend  && uv run ruff check . && uv run pyright
+cd frontend && pnpm lint:fix      && pnpm type-check
 
-    on:
-      push:
-        branches: [main]
-        paths:
-          - 'frontend/**'
-          - 'backend/**'
-          - 'shared/**'
-          - 'docker-compose.yml'
-          - '.github/workflows/deploy.yml'
-      workflow_run:
-        workflows: ["CI"]
-        branches: [main]
-        types:
-          - completed
-      workflow_dispatch:
+# 5. 提交 PR → 默认 main 分支，CI 通过后合并
+```
 
-    concurrency:
-      group: deploy-pixelforge-${{ github.ref }}
-      cancel-in-progress: true
+还没想好贡献什么？欢迎先看 [Good First Issue（创建列表ing）](https://github.com/MeiSiristhebest/pixelForge/issues)。
 
-    jobs:
-      deploy-frontend:
-        name: Deploy frontend/ â†’ Vercel
-        if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        runs-on: ubuntu-latest
-        defaults:
-          run:
-            working-directory: ./frontend
-        environment:
-          name: production
-          url: ${{ steps.vercel-deploy.outputs.url }}
-        steps:
-          - name: Checkout repository
-            uses: actions/checkout@v4
+---
 
-          - name: Setup pnpm
-            uses: pnpm/action-setup@v4
-            with:
-              version: 10.25.0
-              run_install: false
+## 🔒 Security
 
-          - name: Setup Node.js 22
-            uses: actions/setup-node@v4
-            with:
-              node-version: 22
-              cache: pnpm
-              cache-dependency-path: ./frontend/pnpm-lock.yaml
+- **生产部署务必**：
+  - 将 `APP_ENV=production` 且 `DEBUG=false`
+  - `CORS_ORIGINS` 只允许自己的前端域名，**不要在生产写 `*`**
+  - `backend/.env` 文件权限 600，绝不要 commit 到 Git（.gitignore 已屏蔽，但请二次确认）
+  - 反向代理到 API 时请启用 HTTPS（Let's Encrypt + Nginx 或 Cloudflare Full (Strict)）
+  - PostgreSQL 与 Redis **不要暴露公网端口**，Compose 中对外仅开 3000（前端）/ 8000（API）+ 5555（Flower，建议内网）
+- **漏洞上报**：请发送邮件至 **`pixelforge-security [at] googlegroups [dot] com`**（将 [at] 替换为 @）；我们承诺在 48 小时内首次回复，关键漏洞 72 小时内修复并致谢。
+- 严禁在公开 Issue 中直接披露未修复的安全漏洞细节。
 
-          - name: Install Vercel CLI globally
-            run: pnpm add -g vercel@latest
+---
 
-          - name: Pull env + build + deploy (Vercel Production)
-            id: vercel-deploy
-            env:
-              VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-              VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-              VERCEL_PROJECT_ID_FRONTEND: ${{ secrets.VERCEL_PROJECT_ID_FRONTEND }}
-            run: |
-              if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID_FRONTEND" ]; then
-                echo "::notice::Vercel frontend secrets missing. Skipping auto-deploy."
-                echo "::notice::Setup:"
-                echo "  1. cd frontend && vercel link â†’ write down ORG_ID + PROJECT_ID"
-                echo "  2. Create token: https://vercel.com/account/tokens"
-                echo "  3. Repo â†’ Settings â†’ Secrets â†’ Add: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_FRONTEND"
-                echo "  4. Vercel Project â†’ Env Vars: NEXT_PUBLIC_API_BASE_URL (your backend URL, e.g. https://api.pixelforge.io)"
-                exit 0
-              fi
-              export VERCEL_PROJECT_ID="$VERCEL_PROJECT_ID_FRONTEND"
-              vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
-              vercel build --prod --token="$VERCEL_TOKEN"
-              DEPLOY_URL=$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
-              echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
-              echo "âœ… Frontend deployed to: $DEPLOY_URL"
+## 📄 License
 
-      push-backend-image:
-        name: Build & push backend/ â†’ GHCR
-        if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-        runs-on: ubuntu-latest
-        permissions:
-          contents: read
-          packages: write
-        steps:
-          - name: Checkout repository
-            uses: actions/checkout@v4
+**PixelForge** 基于 **MIT License** 开源。这意味着：
 
-          - name: Set up QEMU (multi-arch build support)
-            uses: docker/setup-qemu-action@v3
+- ✅ 你可以自由地修改、商用、闭源分发 PixelForge 的代码
+- ✅ 衍生作品只需保留一份版权声明与 MIT 原文
+- ❌ 作者不对任何直接/间接使用损失承担责任
 
-          - name: Set up Docker Buildx
-            uses: docker/setup-buildx-action@v3
+**版权声明**：Copyright (c) 2025–2026 PixelForge Contributors（MIT License）。
 
-          - name: Log in to GitHub Container Registry
-            uses: docker/login-action@v3
-            with:
-              registry: ghcr.io
-              username: ${{ github.actor }}
-              password: ${{ secrets.GITHUB_TOKEN }}
-
-          - name: Extract image metadata (tags / labels)
-            id: meta
-            uses: docker/metadata-action@v5
-            with:
-              images: ghcr.io/${{ github.repository_owner }}/pixelforge-backend
-              tags: |
-                type=raw,value=latest,enable={{is_default_branch}}
-                type=sha,prefix=sha-
-                type=semver,pattern={{version}},prefix=v
-
-          - name: Build multi-arch image & push to GHCR
-            uses: docker/build-push-action@v6
-            with:
-              context: ./backend
-              file: ./backend/Dockerfile
-              platforms: linux/amd64,linux/arm64
-              push: true
-              tags: ${{ steps.meta.outputs.tags }}
-              labels: ${{ steps.meta.outputs.labels }}
-              cache-from: type=gha
-              cache-to: type=gha,mode=max
-
-          - name: Post-deploy instructions for backend
-            run: |
-              echo ""
-              echo "ðŸ³ Backend Docker image pushed to:"
-              echo "   ghcr.io/${{ github.repository_owner }}/pixelforge-backend:latest"
-              echo ""
-              echo "ðŸ“‹ Next steps â€” pull & run on your server (RunPod / any VPS):"
-              echo ""
-              echo "   docker login ghcr.io -u ${{ github.repository_owner }} -p <GH_PERSONAL_ACCESS_TOKEN_packages_read>"
-              echo "   docker pull ghcr.io/${{ github.repository_owner }}/pixelforge-backend:latest"
-              echo ""
-              echo "   # Orchestrate with the rest of the stack (Postgres + Redis + Worker + Beat + Flower):"
-              echo "   # â†’ Use the repo-root docker-compose.yml as a template on your server."
-              echo ""
-              echo "ðŸ”‘ Secrets that must be injected at runtime (env-file or managed Postgres/Redis):"
-              echo "   DATABASE_URL           â†’ Managed Postgres (Supabase / Neon / AWS RDS)"
-              echo "   CELERY_BROKER_URL      â†’ Managed Redis (Upstash / AWS ElastiCache)"
-              echo "   CELERY_RESULT_BACKEND  â†’ Same Redis, db=1"
-              echo "   RUNPOD_API_KEY + RUNPOD_ENDPOINT_ID"
-              echo "   R2_ACCOUNT_ID / R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY / R2_BUCKET / R2_PUBLIC_URL"
+完整许可证原文请参阅仓库根目录下的 [`LICENSE`](LICENSE) 文件。
