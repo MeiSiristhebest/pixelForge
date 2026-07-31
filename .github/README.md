@@ -1,21 +1,18 @@
-# PixelForge 🎨
+# Recipe Planner & Meal Sharing Assistant 🥗
 
 <p align="center">
-  <strong>AI-Powered Pixel Character Generator SaaS Platform</strong>
+  <strong>跨平台膳食规划、食谱分享与智能购物清单生成助手</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/MeiSiristhebest/pixelForge/actions/workflows/ci.yml"><img src="https://github.com/MeiSiristhebest/pixelForge/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI Status" /></a>
-  <a href="https://github.com/MeiSiristhebest/pixelForge/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-brightgreen?style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/Next.js-16.2.1-black?style=flat-square&logo=next.js" alt="Next.js" />
-  <img src="https://img.shields.io/badge/React-19.2.4-61DAFB?style=flat-square&logo=react" alt="React" />
-  <img src="https://img.shields.io/badge/FastAPI-0.115+-009688?style=flat-square&logo=fastapi" alt="FastAPI" />
-  <img src="https://img.shields.io/badge/Python-≥3.12-3776AB?style=flat-square&logo=python" alt="Python" />
-  <img src="https://img.shields.io/badge/Celery-5.4%2B-37814A?style=flat-square" alt="Celery" />
-  <img src="https://img.shields.io/badge/Docker-Enabled-2496ED?style=flat-square&logo=docker" alt="Docker" />
+  <a href="https://github.com/MeiSiristhebest/recipe-planner-app/actions/workflows/ci.yml"><img src="https://github.com/MeiSiristhebest/recipe-planner-app/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI Status" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License" /></a>
+  <a href="https://turbo.build/"><img src="https://img.shields.io/badge/Monorepo-Turborepo_1.12-EF4444?style=flat-square" alt="Turborepo" /></a>
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Web-Next.js_14_App_Router-black?style=flat-square&logo=next.js" alt="Next.js" /></a>
+  <a href="https://expo.dev/"><img src="https://img.shields.io/badge/Mobile-React_Native_(Expo_SDK)-61DAFB?style=flat-square&logo=react" alt="React Native" /></a>
+  <a href="https://www.prisma.io/"><img src="https://img.shields.io/badge/ORM-Prisma_%7C_PostgreSQL-2D3748?style=flat-square" alt="Prisma" /></a>
+  <a href="https://pnpm.io/"><img src="https://img.shields.io/badge/packageManager-pnpm_10.10-F69220?style=flat-square" alt="pnpm" /></a>
 </p>
-
----
 
 <p align="center">
   <a href="README.md">🇨🇳 中文</a> &nbsp;·&nbsp; <a href="README_EN.md">🇺🇸 English</a>
@@ -23,364 +20,346 @@
 
 ---
 
-## 🌟 About
+## 📖 关于
 
-PixelForge 是一个面向独立游戏开发者与像素美术爱好者的**端到端 AI 像素角色生成 SaaS 平台**。
+**Recipe Planner & Sharing Assistant** 是一款基于 **Turborepo + pnpm Workspaces** 构建的高性能、跨端（Web + iOS/Android）膳食规划与食谱分享平台。
 
-在传统的像素角色工作流中，从零设计一个多方向、多帧动作的精灵图通常需要数小时的手绘与动画调整——**而 PixelForge 将这个过程压缩到 60 秒以内**。用户只需填写风格提示词与随机种子，系统即可：
+个人与家庭在日常饮食管理中，普遍面临四个重复出现的痛点：
+1. **食谱探索效率低** — 网上食谱分散且质量参差，缺乏一个自己可收藏、可二次编辑的私有食谱库
+2. **一周膳食排程繁琐** — 日历式排程需要手动记录每个餐次的食谱、份数与食材量
+3. **营养信息统计缺失** — 无法实时汇总一周的宏量营养素（热量/蛋白/碳水/脂肪）和微量元素
+4. **购物清单反复凑单** — 每次按计划买菜都要手动数食谱用到的食材，还经常漏买、重复买、单位不一致
 
-1. 通过 Serverless ComfyUI 工作流调用 RunPod GPU 生成多方向像素精灵图
-2. 由 Celery 异步队列管理大规模生成任务并流式推送进度
-3. 前端 PixiJS Canvas 实时播放帧动画、导出精灵图与逐帧检查
-4. 生成产物自动存入 Cloudflare R2 对象存储，全球边缘节点低延迟分发
-
-> **为什么我们不直接用 Midjourney / DALL·E？** 通用文生图模型在像素画领域存在三个难以克服的工程瓶颈：难以保证方向一致性（常见正面/背面比例崩坏）、无法直接导出带透明通道的逐帧精灵图、以及不支持程序化的批量种子复现。PixelForge 针对 ComfyUI 工作流进行了专门的像素风格 LoRA 固化与后处理管线，就是为了解决这三个通用方案无法覆盖的垂直场景痛点。
-
----
-
-## ✨ Key Features
-
-| Feature | Description | Trade-off Note |
-|---------|-------------|----------------|
-| **⚡ AI 多方向精灵图生成** | 基于 ComfyUI 自定义工作流 + RunPod Serverless GPU，支持正面/背面/侧面 4 向一致性输出 | ⚠️ 生成质量高度依赖 RunPod 端点的 LoRA 权重与工作流版本 |
-| **🔄 WebSocket 实时进度流** | 任务状态（排队/生成中/完成/失败）秒级推送，无轮询开销 | ⚠️ 浏览器标签页休眠时需手动重连 |
-| **🖼️ PixiJS 精灵图预览器** | 支持逐帧播放、速度调节、单帧检查、整页精灵图 PNG 导出 | ⚠️ 8 方向以上的超大精灵图在移动设备 Safari 上可能出现掉帧 |
-| **🚀 Celery 异步任务编排** | 基于 Redis 的 Celery Worker + Beat + Flower，支持生成与后处理多队列并发调度 | ⚠️ 单 Worker 默认并发 4，超高并发场景需水平扩容 Worker 实例 |
-| **☁️ Cloudflare R2 边缘存储** | S3 兼容 API，全球 300+ 节点分发，0 出站流量费 | ⚠️ 小文件批量上传需走 S3 Batch，单次 PUT 吞吐有上限 |
-| **🐳 一键容器化编排** | Docker Compose 启动 7 个微服务（Postgres/Redis/API/Worker/Beat/Flower/Frontend） | ⚠️ 本地开发镜像大小约 4.2GB，首次拉取需要稳定网络 |
+Recipe Planner App 用一套统一的数据模型 + Monorepo 跨端共享包，**一次性解决上述四个痛点**：Web 端适合在桌面端探索食谱与规划一周膳食，移动端适合在超市里打开购物清单打勾。
 
 ---
 
-## 🔧 环境要求
+## ✨ 核心功能
+
+| # | 功能 | 详情 | 备注 |
+|---|---------|---------|-----------------|
+| 1 | **🧭 食谱探索与创作** | 浏览社区食谱、收藏、基于 Markdown 富文本编辑步骤、多图封面上传、按分类/标签/关键词检索 | 支持一键导入外部食谱 URL（计划 v0.2） |
+| 2 | **📅 智能一周膳食排程** | 日历看板拖拽式安排早/午/晚餐，自动按份数缩放食材用量，支持模板化整周复制 | 膳食计划可导出 iCalendar 事件 |
+| 3 | **📊 实时营养成分统计** | 基于 USDA FDC 营养数据库，按天/周维度聚合宏量与微量元素，支持目标阈值预警 | 食材营养数据可人工修订覆盖 |
+| 4 | **🛒 智能购物清单生成** | 一键将整周 MealPlan 中所有食谱的 Ingredient 列表**按品类分组聚合**（蔬菜水果、肉类海鲜、乳制品蛋类、调味品、其他），自动完成单位归一化与同食材多食谱合并，支持逐项打勾完成 | 购物清单可分享给家人共同编辑 |
+| 5 | **📱 Web + Mobile 一致体验** | Next.js 14 SSR Web 端 + React Native Expo iOS/Android 端，UI 基础组件库、Zod 表单校验、Prisma DB Client、TypeScript 接口全部在 `packages/*` 共享，双端开发体验完全一致 | 两套端共用的代码占比约 65% |
+| 6 | **🔐 NextAuth 身份认证** | 邮件 + OAuth（GitHub/Google，可扩展）登录，JWT Session，基于角色的食谱公开/私有范围控制 | RLS 基于 User 关系做数据隔离 |
+
+---
+
+## 🌿 环境要求
 
 | 依赖 | 最低版本 |
 |------|---------|
-| **Docker** | 24.0 + Compose v2 |
-| **Node.js** | 22 LTS |
-| **pnpm** | 10.25.0 |
-| **Python** | 3.12 |
-| **uv** | 0.4 |
-| **RunPod 账户** | 用于 ComfyUI 工作流部署 |
-| **Cloudflare R2** | 用于生成产物存储 |
+| **Node.js** | 18.18 LTS（推荐 20.x） |
+| **pnpm** | 8.6.10 |
+| **PostgreSQL** | 14.0（推荐 15.x） |
+| **Docker & Compose v2** | 24.0（仅 Option A 需要） |
+| **Expo Go** | 移动端开发用，App Store / 应用宝下载 |
 
 ---
 
-## 📦 Installation
+## 📦 安装
 
-### Option A：Docker Compose（推荐，零环境依赖）
-
-启动 7 个微服务：PostgreSQL 16、Redis 7、FastAPI、Celery Worker、Celery Beat、Flower 监控、Next.js 前端。
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/MeiSiristhebest/pixelForge.git
-cd pixelForge
-
-# 2. Copy environment files (see "Configuration" section for required secrets)
-cp backend/.env.example backend/.env
-
-# 3. Start all services in the background (~4 GB total images)
-docker compose up -d
-```
-
-**启动成功后访问：**
-
-| Service | URL |
-|---------|-----|
-| Next.js Frontend | [`http://localhost:3000`](http://localhost:3000) |
-| FastAPI REST API | [`http://localhost:8000`](http://localhost:8000) |
-| Interactive OpenAPI (Swagger) | [`http://localhost:8000/docs`](http://localhost:8000/docs) |
-| Celery Flower (Task Monitor) | [`http://localhost:5555`](http://localhost:5555) |
-| PostgreSQL (direct) | `postgresql://pixelforge:pixelforgepass@localhost:5432/pixelforge` |
-| Redis (direct) | `redis://localhost:6379/0` |
-
-停止与清理：
-
-```bash
-# Stop all services (keep volumes)
-docker compose stop
-
-# Full teardown (remove volumes = WIPE DB + cache data)
-docker compose down -v
-```
+我们提供两种启动方式。**想先快速跑起来的用户直接选 Option A（Docker 一键起 DB + pnpm 本地起双端）**。
 
 ---
 
-### Option B：本地手动搭建（适合二次开发/调试）
+### Option A：Docker Compose 起 PostgreSQL + 本地 Monorepo 开发（推荐）
 
-仅推荐在需要单步调试 AI 工作流或前端热更新时使用。
-
-#### 1. 启动基础中间件
+这是最快的启动方式：用 Docker 起一个带健康检查的 PostgreSQL 15，其他应用层（Web/Mobile/生成 Prisma Client）全部本地 pnpm 开发调试（热更新最快）。
 
 ```bash
-cd pixelForge
-docker compose up -d postgres redis
-```
+# 1. Clone & 进入
+git clone https://github.com/MeiSiristhebest/recipe-planner-app.git
+cd recipe-planner-app
 
-#### 2. 启动 FastAPI + Celery（Backend）
+# 2. 一键起 PostgreSQL 15（持续运行；健康检查通过后才 ready）
+docker compose up -d db
+# docker ps 应看到 recipe_planner_db_local 容器 (port 5432)
 
-```bash
-cd backend
-
-# 用 uv 创建虚拟环境 + 安装依赖（replaces pip + venv）
-uv sync --dev
-
-# 启动 FastAPI（热重载，端口 8000）
-uv run uvicorn app.main:app --reload --port 8000
-
-# 新终端 1：启动 Celery Worker（4 并发，队列：generation + celery）
-uv run celery -A app.celery_app.app worker --loglevel=info --concurrency=4 -Q generation,celery
-
-# 新终端 2：启动 Celery Beat（定时任务调度）
-uv run celery -A app.celery_app.app beat --loglevel=info
-```
-
-#### 3. 启动 Next.js 16（Frontend）
-
-```bash
-cd frontend
-
-# 安装依赖（pnpm 10.25，已锁版本）
+# 3. 安装 monorepo 全依赖（pnpm 10.10；~800MB）
 pnpm install
 
-# 启动开发服务器（Turbopack 加速，端口 3000）
-pnpm dev
-# 等价于 next dev --turbopack
+# 4. 复制环境变量模板（下文 "Configuration" 有详细字段说明）
+cp .env.example .env
+# 编辑 DATABASE_URL（默认已对齐 docker compose 中的 DB 账号密码，通常无需改）、NEXTAUTH_URL、NEXTAUTH_SECRET、OAuth Providers
+
+# 5. 生成 Prisma Client + 推送 Schema 到 Pg + 填种子数据（示例食谱+标签+分类）
+pnpm db:generate
+pnpm db:push
+pnpm db:seed
+```
+
+✅ 安装完成，接下来跳到 **Quick Start** 直接跑双端。
+
+---
+
+### Option B：使用远程 PostgreSQL（本地完全不装 Docker）
+
+适合你已经有一个现成的 Supabase / Neon / 自己的 Pg 实例：
+
+```bash
+git clone https://github.com/MeiSiristhebest/recipe-planner-app.git
+cd recipe-planner-app
+
+# 直接写 .env 的 DATABASE_URL 指向你的 Pg
+# DATABASE_URL="postgresql://user:password@your-db-host:5432/recipe_planner"
+pnpm install
+pnpm db:generate
+pnpm db:push   # 第一次建表；后续迁移用 pnpm db:migrate:dev
+pnpm db:seed   # 可选，填充示例数据
 ```
 
 ---
 
-### 🔧 Configuration（`backend/.env` 必填密钥）
-
-`cp backend/.env.example backend/.env` 后，必须填写以下带 `your_*` 占位符的字段：
+### 🔧 Configuration（.env 必填字段）
 
 ```env
-# ===== Core =====
-APP_ENV=development          # development / production
-DEBUG=true
-CORS_ORIGINS=http://localhost:3000
+# ========== Database ==========
+# 对齐 Option A 中 docker-compose.yml 的 Postgres 15 账号
+DATABASE_URL="postgresql://recipe_user:recipe_password@localhost:5432/recipe_planner_dev"
 
-# ===== Database & Redis =====
-DATABASE_URL=postgresql+asyncpg://pixelforge:pixelforgepass@postgres:5432/pixelforge
-CELERY_BROKER_URL=redis://redis:6379/0
-CELERY_RESULT_BACKEND=redis://redis:6379/1
+# ========== NextAuth ==========
+# Web 端的绝对地址（开发默认 localhost:3000；生产改为你的域名）
+NEXTAUTH_URL="http://localhost:3000"
+# 生成密钥：openssl rand -hex 32
+NEXTAUTH_SECRET="your-nextauth-secret-key-64-char-hex"
 
-# ===== AI Execution (必填) =====
-RUNPOD_API_KEY=your_runpod_api_key_here    # https://www.runpod.io/console/user/settings
-RUNPOD_ENDPOINT_ID=your_endpoint_id_here   # Serverless 端点 ID（ComfyUI 工作流）
-
-# ===== Cloud Storage (必填) =====
-R2_ACCOUNT_ID=your_account_id              # Cloudflare 控制台 → R2 → Account Details
-R2_ACCESS_KEY_ID=your_access_key
-R2_SECRET_ACCESS_KEY=your_secret_key
-R2_BUCKET=pixelforge-assets
-R2_PUBLIC_URL=https://your-public-domain.r2.dev
+# ========== OAuth Providers（可选，至少留一个 Email 方式可用）==========
+# GITHUB_ID=xxx
+# GITHUB_SECRET=xxx
+# GOOGLE_ID=xxx
+# GOOGLE_SECRET=xxx
 ```
 
-> 📌 **生产部署提示**：R2_PUBLIC_URL 建议绑定自定义域名（如 `assets.pixelforge.io`），并启用 Cloudflare Cache Rules 缓存 PNG 精灵图 7 天，可进一步降低 R2 GET 请求费用与 CDN 首字节时延。
+> 📌 如果 `.env.example` 文件不存在（仓库中没提交模板），直接复制上面这一版即可。
 
 ---
 
-## 🚀 Quick Start（5 分钟跑通端到端）
+## 🚀 快速开始
 
-> 假设你已经按 **Option A** 启动了全部服务，并在 `backend/.env` 中正确填写了 RunPod 与 R2 密钥。
+> 前提：Installation → Option A 全部执行完毕（Postgres 容器 up + pnpm install + db:push + db:seed 全部通过）。
 
-**Step 1：验证健康检查**
-
-```bash
-curl -s http://localhost:8000/health
-```
-
-**预期 JSON 输出**：
-
-```json
-{
-  "status": "ok",
-  "version": "0.1.0",
-  "celery_worker_count": 1,
-  "redis_conn": "healthy",
-  "postgres_conn": "healthy"
-}
-```
-
-**Step 2：提交一张精灵图生成任务**
+### 启动双端开发服务器
 
 ```bash
-curl -s -X POST http://localhost:8000/api/v1/generate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "prompt": "cute 16-bit pixel knight, cyan armor, idle animation, white background",
-    "seed": 42,
-    "directions": ["front", "back", "left", "right"],
-    "frames_per_direction": 4,
-    "style": "rpg_maker_vx"
-  }'
+# 方式 1：同时起 Web + Mobile（两个端口，Turbo 统一调度）
+pnpm dev
+# 方式 2：只起 Web 端（更常用的调试场景）
+pnpm dev --filter web
+# 方式 3：只起 Mobile 端（Expo Dev Server + 扫码）
+pnpm dev --filter mobile
 ```
 
-**预期 JSON 输出**（立即返回，不等待完成）：
+### 预期访问结果
 
-```json
-{
-  "task_id": "pf-01J2XYZ9A1B2C3D4E5F6",
-  "status": "queued",
-  "progress": 0,
-  "ws_url": "ws://localhost:8000/ws/task/pf-01J2XYZ9A1B2C3D4E5F6",
-  "estimated_eta_seconds": 52
-}
-```
+| 目标 | URL / 访问方式 | 验证 |
+|--------|--------------------|------|
+| **Next.js Web App** | [`http://localhost:3000`](http://localhost:3000) | 浏览器打开首页 → 看到「食谱探索」或「登录」页 → 种子食谱可正常浏览 |
+| **Expo Mobile App** | 终端里显示一个 QR Code + `exp://<你的局域网IP>:8081` | 手机安装 Expo Go → 扫 QR → 加载出首页（手机与电脑需同一 Wi-Fi）|
+| **Prisma Studio（DB GUI）** | （另开一个终端）`pnpm db:studio` → [`http://localhost:5555`](http://localhost:5555) | 看到 User / Recipe / MealPlan / ShoppingListItem 等表，并可查询种子数据 |
+| **Turborepo 全量构建** | `pnpm build` | 终端输出 Tasks：2 build, 2 successful, 0 cached, 0 failed（首次）|
 
-**Step 3：浏览器查看结果**
+### 5 分钟端到端 Walkthrough（创建一周购物清单）
 
-打开 [`http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6`](http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6)，可以看到：
-
-- 顶部实时进度条（约 50s 从 0% → 100%，WebSocket 推送）
-- 中部 PixiJS Canvas 预览：可切换 4 个方向、播放/暂停动画、调到单帧查看
-- 右下角「Export Sprite Sheet」按钮：点击下载透明通道 PNG 精灵图
+1. 浏览器 → `http://localhost:3000` → 右上角「注册」→ 用邮箱 / GitHub OAuth 登录
+2. 首页「食谱探索」→ 打开种子食谱「🍝 奶油培根意面」→ 收藏
+3. 进入「膳食计划」→ 日历视图 → 本周周一到周日拖拽分配食谱（早餐/午餐/晚餐每顿可任意填，也可点「一键复制上一周模板」）
+4. 点右上角「🛒 生成本周购物清单」→ 系统自动做：
+   - 遍历所有 MealPlanItem → 拉取每条 Recipe.ingredients
+   - 归一化单位（15ml 酱油 + 5ml 酱油 = 20ml 酱油）
+   - 按品类分组（蔬菜水果 / 肉类海鲜 / 乳制品蛋类 / 调味品 / 其他）
+   - 写入 ShoppingList + ShoppingListItem 表
+5. 浏览器跳到购物清单详情页 → 即可逐项打勾，或手机端 Expo App 扫码同步打开边走边勾
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+## 🏗️ 架构亮点
+
+### 1. Monorepo 拓扑依赖图
 
 ```mermaid
 graph TD
-    C["Client Browser\nNext.js 16 + PixiJS + R3F"]
-    F["FastAPI Backend\nPython 3.12 + AsyncPG"]
-    R[("Redis 7\nBroker + Result Backend")]
-    W["Celery Workers\nQueue: generation + celery"]
-    B["Celery Beat\nPeriodic Task Scheduler"]
-    FL["Flower\nTask UI Monitor"]
-    AI["RunPod Serverless GPU\nComfyUI Custom Workflow"]
-    S3[("Cloudflare R2\nSprite Artifacts")]
-    PG[("PostgreSQL 16\nTask Metadata + Auth")]
+    subgraph Apps["应用层 · Apps"]
+      W["apps/web · Next.js 14 App Router"]
+      M["apps/mobile · React Native + Expo SDK"]
+    end
 
-    C -- "HTTP REST / WS" --> F
-    F -- "Submit Job" --> R
-    R -- "Process" --> W
-    W -- "Invoke" --> AI
-    W -- "Save PNG" --> S3
-    F -- "Metadata + Auth" --> PG
-    B -- "Dispatch periodic" --> R
-    FL -- "Read statuses" --> R
+    subgraph Pkgs["共享包层 · packages"]
+      UI["packages/ui · Shadcn/Tailwind 跨端 UI 基础组件"]
+      DB["packages/prisma-db · Prisma Client + Schema"]
+      V["packages/validators · Zod Schemas"]
+      T["packages/types · TypeScript Shared Interfaces"]
+      U["packages/utils · Helper Functions"]
+      L["packages/eslint-config-custom · 统一 Lint 规范"]
+    end
 
-    classDef primary fill:#0ea5e9,stroke:#0369a1,color:#fff
-    classDef store fill:#10b981,stroke:#065f46,color:#fff
-    classDef compute fill:#f59e0b,stroke:#92400e,color:#fff
-    class C,F primary
-    class R,S3,PG store
-    class W,B,FL,AI compute
+    W --> UI
+    W --> DB
+    W --> V
+    W --> T
+    W --> U
+    M --> UI
+    M --> V
+    M --> T
+    M --> U
+    DB --> T
 ```
 
-| Layer | Technologies |
-| :--- | :--- |
-| **Frontend** | Next.js 16 (App Router, Turbopack)、TypeScript 5.9、Tailwind CSS 4.2、PixiJS 8.6、React Three Fiber (drei)、Framer Motion 12 |
-| **Backend API** | Python 3.12、FastAPI 0.115+、Uvicorn 0.34+、Pydantic v2、SQLAlchemy 2 (async)、Alembic |
-| **Async Task Layer** | Celery 5.4+、Redis 7、Flower 2（Task UI）、Celery Beat（周期调度） |
-| **AI Workflows** | RunPod Serverless GPU Endpoints、ComfyUI 自定义工作流 + 像素风格 LoRA |
-| **Database & Storage** | PostgreSQL 16（`pg_isready` 健康检查 + 数据持久卷）、Cloudflare R2（S3 API，全球边缘分发） |
-| **Auth & Security** | FastAPI OAuth2 + JWT (`python-jose` + `passlib[bcrypt]`)、CORS 白名单 |
-| **DevOps** | Docker 多阶段构建镜像、Docker Compose v2 编排、Ruff（lint+格式化）、Pyright strict（类型检查）、Biome（前端 lint+format） |
+通过 `pnpm Workspaces` + `Turborepo 增量构建`，任意共享包变更只会影响依赖它的应用，未变的应用从 `node_modules/.cache/turbo` 秒级命中缓存，实现跨端一致的秒级增量编译体验。
+
+**核心源码入口**：
+- [turbo.json（构建任务流水线：build/lint/dev）](turbo.json)
+- [package.json（pnpm workspace 别名 + 根级脚本：`pnpm db:*`）](package.json)
+- [packages/prisma-db/（共享 Prisma Client 实例）](packages/prisma-db/)
+- [packages/validators/（跨端 Zod 校验）](packages/validators/)
+- [packages/ui/（共享 UI 组件库）](packages/ui/)
 
 ---
 
-## 📚 API Endpoints Overview
+### 2. 膳食计划 + 智能购物清单聚合引擎
 
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :--- |
-| `GET`  | `/health` | 综合健康检查（DB + Redis + Worker 数） | No |
-| `POST` | `/api/v1/auth/register` | 用户注册（email + 密码 bcrypt 哈希入 Pg） | No |
-| `POST` | `/api/v1/auth/login` | 登录换取 JWT access token | No |
-| `POST` | `/api/v1/generate` | 提交精灵图生成任务（返回 task_id + ETA） | ✅ Bearer JWT |
-| `GET`  | `/api/v1/tasks/{task_id}` | 查询任务状态 + 进度 + 产物 R2 下载 URL | ✅ Bearer JWT |
-| `GET`  | `/api/v1/tasks` | 分页查询当前用户历史任务列表 | ✅ Bearer JWT |
-| `WS`   | `/ws/task/{task_id}` | WebSocket 实时流式推送 progress（排队 / 0~100 / 完成 / 失败） | No（task_id 保密即可） |
+```mermaid
+sequenceDiagram
+    actor User as 用户（Web/Mobile）
+    participant UI as UI（MealPlanView）
+    participant API as Server Router（RSC Actions / React Query）
+    participant DB as Prisma（PostgreSQL）
+    participant Engine as 购物清单聚合引擎（services/shopping-list.ts）
 
-更完整的 Request / Response Schema 示例请访问 Swagger：[`/docs`](http://localhost:8000/docs)。
+    Note over User,Engine: Step 1：用户拖拽排程
+    User->>UI: 选择食谱 → 拖到周历某一天（MealPlanItem：date, meal, 份数）
+    UI->>API: 提交 MealPlan 变更事务
+    API->>DB: 级联 upsert MealPlan + MealPlanItem（带份数）
+
+    Note over User,Engine: Step 2：用户点「一键生成本周购物清单」
+    User->>UI: 点击 Generate Shopping List
+    UI->>API: POST /api/shopping-lists/generate?week=2026-W31
+    API->>DB: 查询本周范围内所有 MealPlanItem → join Recipe.ingredients + Unit + Category
+    API->>Engine: ①单位归一化 ②同食材聚合累加 ③按品类分组（蔬菜/肉类/乳制品/调味品/其他）
+    Engine-->>API: 返回 ShoppingListItem[]（结构：{ingredient_id, name, total_qty, unit, category, checked:false}）
+    API->>DB: 批量写入 ShoppingList + ShoppingListItem
+    DB-->>UI: 返回新生成的购物清单对象（可分享 URL）
+```
+
+**核心源码入口**：
+- [prisma/schema.prisma（MealPlanItem ↔ RecipeIngredient ↔ Category 关联定义）](prisma/schema.prisma)
+- [packages/validators/（膳食计划提交 & 购物清单生成 Zod schemas）](packages/validators/)
+
+---
+
+### 3. 统一数据模型架构（ER Diagram）
+
+```mermaid
+erDiagram
+    User ||--o{ Recipe : "author of"
+    User ||--o{ Favorite : "favorited"
+    User ||--o{ MealPlan : "created"
+    User ||--o{ ShoppingList : "owns"
+    User ||--o{ RecentlyViewedRecipe : "viewed"
+
+    Recipe ||--o{ CategoryOnRecipe : "categorized"
+    Recipe ||--o{ TagOnRecipe : "tagged"
+    Recipe ||--o{ RecipeIngredient : "has"
+    Recipe ||--o{ MealPlanItem : "included in"
+
+    MealPlan ||--o{ MealPlanItem : "contains"
+    ShoppingList ||--o{ ShoppingListItem : "contains"
+    ShoppingListItem }o--|| RecipeIngredient : "aggregates"
+
+    Category ||--o{ CategoryOnRecipe : "has"
+    Tag ||--o{ TagOnRecipe : "has"
+    IngredientCategory ||--o{ RecipeIngredient : "categorizes"
+    IngredientCategory ||--o{ ShoppingListItem : "groups"
+```
+
+**核心源码入口**：
+- [prisma/schema.prisma（完整 PostgreSQL Schema 声明 + 索引优化注释）](prisma/schema.prisma)
 
 ---
 
 ## 📂 项目结构
 
 ```text
-pixelForge/
-├── frontend/                      # Next.js 16 前端
-│   ├── src/
-│   │   ├── app/                   # 页面路由
-│   │   ├── components/            # UI + PixiJS 预览组件
-│   │   ├── hooks/                 # React hooks
-│   │   ├── lib/                   # API client + 工具函数
-│   │   └── types/                 # TypeScript 类型
-│   ├── package.json
-│   └── Dockerfile
-├── backend/                       # FastAPI 后端
-│   ├── app/
-│   │   ├── api/
-│   │   │   └── routes/            # auth / generation / health
-│   │   ├── celery_app/            # Celery Worker + Beat
-│   │   ├── core/                  # 配置 + 安全
-│   │   ├── models/                # SQLAlchemy 模型
-│   │   ├── services/              # RunPod + R2 封装
-│   │   └── main.py                # FastAPI 入口
-│   ├── alembic/                   # 数据库迁移
-│   ├── pyproject.toml
-│   ├── .env.example
-│   └── Dockerfile
-├── shared/                        # 共享类型定义
-├── docker-compose.yml             # 7 服务编排
+recipe-planner-app/
+├── apps/                             # 应用层
+│   ├── web/                          # Next.js 14 Web 端
+│   └── mobile/                       # React Native + Expo 移动端
+├── packages/                         # 跨端共享包
+│   ├── prisma-db/                    # Prisma Client + Schema
+│   ├── types/                        # 全局 TypeScript 接口
+│   ├── ui/                           # 跨端 UI 组件库
+│   ├── utils/                        # 工具函数
+│   ├── validators/                   # Zod 数据校验
+│   └── eslint-config-custom/         # 共享 ESLint 配置
+├── prisma/                           # 数据层
+│   ├── schema.prisma                 # PostgreSQL Schema
+│   └── seed.ts                       # 种子数据
+├── public/                           # 静态资源
+├── docker-compose.yml                # PostgreSQL 开发容器
+├── turbo.json                        # Turborepo 配置
+├── pnpm-workspace.yaml               # pnpm workspace 声明
+├── package.json
+├── tsconfig.json
 ├── README.md
 └── README_EN.md
 ```
 
 ---
 
-## 🤝 Contributing
+## 📊 技术栈汇总
 
-> 这是一个新起的开源项目，所有 Issue / PR / Feature Request 都极其欢迎 🙏
-
-**快速上手开发**：
-
-```bash
-# 1. Fork & Clone
-git clone https://github.com/<YOUR_USERNAME>/pixelForge.git
-cd pixelForge
-
-# 2. 启动中间件 + Backend（uv sync）+ Frontend（pnpm install）
-# 参见 Installation → Option B
-
-# 3. 创建分支（惯例：feat/xxx、fix/yyy、docs/zzz）
-git checkout -b feat/support-sprite-sheet-auditing
-
-# 4. 跑 lint / typecheck（前后端各跑一套）
-cd backend  && uv run ruff check . && uv run pyright
-cd frontend && pnpm lint:fix      && pnpm type-check
-
-# 5. 提交 PR → 默认 main 分支，CI 通过后合并
-```
-
-还没想好贡献什么？欢迎先看 [Good First Issue（创建列表ing）](https://github.com/MeiSiristhebest/pixelForge/issues)。
+| 层级 | 选型 | 作用 |
+|:----|:----|:----|
+| **Monorepo 构建** | Turborepo 1.12 + pnpm 10 Workspaces | 增量构建缓存 + 多包依赖统一管理 |
+| **Web 框架** | Next.js 14（App Router）+ React 18 | SSR / RSC / Server Actions 高性能渲染 |
+| **移动端框架** | React Native + Expo SDK | iOS / Android 原生跨平台构建，Expo Go 扫码真机调试 |
+| **数据库 & ORM** | PostgreSQL 15 + Prisma ORM 5.10 + @prisma/client 5.22 | 强类型数据访问 + 迁移管理 + Studio GUI |
+| **状态管理** | Zustand（客户端全局）+ TanStack Query v5（API 缓存） | 与共享包 TS 类型无缝衔接 |
+| **UI & 样式** | TailwindCSS + Shadcn/ui（Radix UI 基础）+ 响应式设计系统 | 跨端一致的无障碍 UI 组件（Web 直接复用 packages/ui）|
+| **跨端数据校验** | Zod 3 | packages/validators 一套 schema Web/Mobile 双端共用 |
+| **身份认证** | NextAuth.js v5 | Email + OAuth（GitHub/Google 可扩展）、JWT Session |
+| **版本管理** | Changesets | Monorepo 多包语义化版本发布与 Changelog |
+| **代码质量** | ESLint 8 + Prettier 3（统一在 packages/eslint-config-custom） | 双端 Lint / Format 行为完全一致 |
 
 ---
 
-## 🔒 Security
+## 🤝 贡献
 
-- **生产部署务必**：
-  - 将 `APP_ENV=production` 且 `DEBUG=false`
-  - `CORS_ORIGINS` 只允许自己的前端域名，**不要在生产写 `*`**
-  - `backend/.env` 文件权限 600，绝不要 commit 到 Git（.gitignore 已屏蔽，但请二次确认）
-  - 反向代理到 API 时请启用 HTTPS（Let's Encrypt + Nginx 或 Cloudflare Full (Strict)）
-  - PostgreSQL 与 Redis **不要暴露公网端口**，Compose 中对外仅开 3000（前端）/ 8000（API）+ 5555（Flower，建议内网）
-- **漏洞上报**：请发送邮件至 **`pixelforge-security [at] googlegroups [dot] com`**（将 [at] 替换为 @）；我们承诺在 48 小时内首次回复，关键漏洞 72 小时内修复并致谢。
-- 严禁在公开 Issue 中直接披露未修复的安全漏洞细节。
+本项目已经有一份完整的贡献指南，建议所有第一次贡献的开发者先读 [CONTRIBUTING.md](CONTRIBUTING.md)，里面详细规定了：
+
+- 开发环境完整配置（Fork → Clone → pnpm install → Prisma 初始化）
+- **分支命名惯例**：`feature/xxx` / `fix/xxx` / `docs/xxx` / `refactor/xxx`
+- **提交消息惯例**：Conventional Commits（`feat:` / `fix:` / `docs:` / `refactor:` / `perf:` / `test:` / `chore:`）
+- Monorepo 跨包加依赖：`pnpm add <pkg> --filter @recipe-planner/<package-name>`
+- 创建新共享包的步骤
+- **PR 流程**：建分支 → `pnpm lint` → `pnpm test` → 提交 PR → Review → squash merge
+- Changesets 版本管理：`pnpm changeset` 生成变更记录并与代码一起提交
+
+> 💡 快速小贡献：[CONTRIBUTING.md](CONTRIBUTING.md) 里有「Good First Issue」级别的小任务，适合第一次参与开源。
 
 ---
 
-## 📄 License
+## 🔒 安全
 
-**PixelForge** 基于 **MIT License** 开源。这意味着：
+- 生产部署建议：
+  - `NEXTAUTH_URL` 必须写真实域名，绝不能写 localhost
+  - `NEXTAUTH_SECRET` 必须用 `openssl rand -hex 32` 生成 64 字符随机串
+  - PostgreSQL 对外只允许从应用服务器 IP 连接，不要 0.0.0.0
+  - 启用 Prisma 中间件 / Row Level Security（RLS）策略（v0.2 计划）
+- **漏洞上报**：请发送邮件至 **`maox_neta@foxmail.com`**，48 小时内首次回复，关键漏洞 72 小时内修复。**不要在公开 Issue 里披露未修复漏洞细节**。
 
-- ✅ 你可以自由地修改、商用、闭源分发 PixelForge 的代码
-- ✅ 衍生作品只需保留一份版权声明与 MIT 原文
-- ❌ 作者不对任何直接/间接使用损失承担责任
+---
 
-**版权声明**：Copyright (c) 2025–2026 PixelForge Contributors（MIT License）。
+## 📄 许可证
 
-完整许可证原文请参阅仓库根目录下的 [`LICENSE`](https://github.com/MeiSiristhebest/pixelForge/blob/main/LICENSE) 文件。
+本项目基于 **MIT License** 开源。
+
+- ✅ 商用 / 修改 / 分发（闭源或开源）自由
+- ✅ 保留版权声明 + MIT 原文即可
+- ❌ 作者不对使用后果承担任何责任
+
+**版权声明**：Copyright (c) 2025–2026 Recipe Planner App Contributors. All Rights Reserved.
+
+完整许可证原文请参阅仓库根目录下的 [`LICENSE`](LICENSE) 文件。
