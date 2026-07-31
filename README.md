@@ -54,7 +54,7 @@ PixelForge 是一个面向独立游戏开发者与像素美术爱好者的**端�
 ## 🔧 环境要求
 
 | 依赖 | 最低版本 |
-|------|---------|
+|------|----------|
 | **Docker** | 24.0 + Compose v2 |
 | **Node.js** | 22 LTS |
 | **pnpm** | 10.25.0 |
@@ -243,15 +243,24 @@ curl -s -X POST http://localhost:8000/api/v1/generate \
 
 ```mermaid
 graph TD
-    C[Client Browser\nNext.js 16 + PixiJS + R3F]
-    F[FastAPI Backend\nPython 3.12 + AsyncPG]
-    R[(Redis 7\nBroker + Result Backend)]
-    W[Celery Workers\nQueue: generation + celery]
-    B[Celery Beat\nPeriodic Task Scheduler]
-    FL[Flower\nTask UI Monitor]
-    AI[RunPod Serverless GPU\nComfyUI Custom Workflow]
-    S3[(Cloudflare R2\nSprite Artifacts)]
-    PG[(PostgreSQL 16\nTask Metadata + Auth)]
+    C[Client Browser
+Next.js 16 + PixiJS + R3F]
+    F[FastAPI Backend
+Python 3.12 + AsyncPG]
+    R[(Redis 7
+Broker + Result Backend)]
+    W[Celery Workers
+Queue: generation + celery]
+    B[Celery Beat
+Periodic Task Scheduler]
+    FL[Flower
+Task UI Monitor]
+    AI[RunPod Serverless GPU
+ComfyUI Custom Workflow]
+    S3[(Cloudflare R2
+Sprite Artifacts)]
+    PG[(PostgreSQL 16
+Task Metadata + Auth)]
 
     C -- HTTP REST / WS --> F
     F -- Submit Job --> R
@@ -384,4 +393,3 @@ cd frontend && pnpm lint:fix      && pnpm type-check
 **版权声明**：Copyright (c) 2025–2026 PixelForge Contributors（MIT License）。
 
 完整许可证原文请参阅仓库根目录下的 [`LICENSE`](LICENSE) 文件。
-
