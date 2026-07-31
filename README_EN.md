@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/Next.js-16.2.1-black?style=flat-square&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/React-19.2.4-61DAFB?style=flat-square&logo=react" alt="React" />
   <img src="https://img.shields.io/badge/FastAPI-0.115+-009688?style=flat-square&logo=fastapi" alt="FastAPI" />
-  <img src="https://img.shields.io/badge/Python-%E2%89%A53.12-3776AB?style=flat-square&logo=python" alt="Python" />
+  <img src="https://img.shields.io/badge/Python-≥3.12-3776AB?style=flat-square&logo=python" alt="Python" />
   <img src="https://img.shields.io/badge/Celery-5.4%2B-37814A?style=flat-square" alt="Celery" />
   <img src="https://img.shields.io/badge/Docker-Enabled-2496ED?style=flat-square&logo=docker" alt="Docker" />
 </p>
@@ -371,15 +371,17 @@ No idea where to begin? Check the [Good First Issue list](https://github.com/Mei
 - `CORS_ORIGINS` must only list **your frontend domain(s)** — never wildcard `*` in production.
 - Keep `backend/.env` at mode `0600` (owner read/write only). The file is already `.gitignore`d — double-check before the first commit.
 - Terminate TLS at the reverse proxy in front of the API (Let's Encrypt + Nginx or Cloudflare Full (Strict) SSL).
-- Postgres and Redis should **never publish public ports**. Expose only: 3000 (Frontend), 8000 (API), 5555 (Flower — ideally bind to the internal / VPN interface only).
+- PostgreSQL and Redis should **never publish public ports**. Expose only: 3000 (Frontend), 8000 (API), 5555 (Flower — ideally bind to the internal / VPN interface only).
+- Rotate **RunPod API Key**, **Cloudflare R2 Access Keys**, and **JWT signing secrets** on a regular schedule; never re-use personal cloud credentials for the shared PixelForge service role.
+- Celery Flower (`:5555`) should sit behind HTTP Basic Auth or an internal VPN — it exposes task-level metadata and worker restart controls.
 
 ### Vulnerability disclosure
 
-Send suspected issues (RLS bypass, signature-URL privilege escalation, client-side traces of `SUPABASE_SERVICE_ROLE_KEY`, etc.) **by email**, never in a public GitHub Issue:
+Send suspected issues (JWT-forging bugs, uncaught CORS preflight bypasses, RunPod worker credential leaks via ComfyUI workflow injection, R2 signed-URL privilege escalation, etc.) **by email**, never in a public GitHub Issue:
 
 **`pixelforge-security [at] googlegroups [dot] com`**
 
-We reply within **48 hours** for the first acknowledgement; critical bugs get a fix and a public thanks within 72 hours.
+First acknowledgement within **48 hours**; critical bugs get a hotfix and a public thanks within 72 hours.
 
 ---
 

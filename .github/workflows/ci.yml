@@ -9,7 +9,7 @@ on:
 
 jobs:
   frontend:
-    name: Frontend (Next.js 16 Â· Biome)
+    name: Frontend (Next.js 16 · Biome)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -44,7 +44,7 @@ jobs:
         run: pnpm build
 
   backend:
-    name: Backend (FastAPI + uv Â· Ruff / Pyright / Pytest)
+    name: Backend (FastAPI + uv · Ruff / Pyright / Pytest)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -69,11 +69,11 @@ jobs:
       - name: Lint (Ruff)
         run: uv run ruff check app tests
 
-      - name: Type check (Pyright Â· strict)
+      - name: Type check (Pyright · strict)
         run: uv run pyright
 
-      - name: Run tests (Pytest Â· asyncio auto)
-        run: uv run pytest || echo "âš ï¸ No tests folder yet â€” skipping"
+      - name: Run tests (Pytest · asyncio auto)
+        run: uv run pytest || echo "⚠️ No tests folder yet — skipping"
 
   docker-config:
     name: Docker Compose validation

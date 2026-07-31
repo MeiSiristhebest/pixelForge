@@ -1,4 +1,4 @@
-name: Deploy (Frontend â†’ Vercel Â· Backend â†’ GHCR)
+name: Deploy (Frontend → Vercel · Backend → GHCR)
 
 on:
   push:
@@ -21,8 +21,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # ──────────────────────────────────────────────────────────
+  # Job 1 · Deploy Next.js frontend → Vercel
+  # ──────────────────────────────────────────────────────────
   deploy-frontend:
-    name: Deploy frontend/ â†’ Vercel
+    name: Deploy frontend/ → Vercel
     if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     defaults:
@@ -61,10 +64,10 @@ jobs:
           if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID_FRONTEND" ]; then
             echo "::notice::Vercel frontend secrets missing. Skipping auto-deploy."
             echo "::notice::Setup:"
-            echo "  1. cd frontend && vercel link â†’ write down ORG_ID + PROJECT_ID"
+            echo "  1. cd frontend && vercel link → write down ORG_ID + PROJECT_ID"
             echo "  2. Create token: https://vercel.com/account/tokens"
-            echo "  3. Repo â†’ Settings â†’ Secrets â†’ Add: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_FRONTEND"
-            echo "  4. Vercel Project â†’ Env Vars: NEXT_PUBLIC_API_BASE_URL (your backend URL, e.g. https://api.pixelforge.io)"
+            echo "  3. Repo → Settings → Secrets → Add: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID_FRONTEND"
+            echo "  4. Vercel Project → Env Vars: NEXT_PUBLIC_API_BASE_URL (your backend URL, e.g. https://api.pixelforge.io)"
             exit 0
           fi
           export VERCEL_PROJECT_ID="$VERCEL_PROJECT_ID_FRONTEND"
@@ -72,10 +75,13 @@ jobs:
           vercel build --prod --token="$VERCEL_TOKEN"
           DEPLOY_URL=$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
           echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
-          echo "âœ… Frontend deployed to: $DEPLOY_URL"
+          echo "✅ Frontend deployed to: $DEPLOY_URL"
 
+  # ──────────────────────────────────────────────────────────
+  # Job 2 · Build & push backend Docker image → GitHub Container Registry (GHCR)
+  # ──────────────────────────────────────────────────────────
   push-backend-image:
-    name: Build & push backend/ â†’ GHCR
+    name: Build & push backend/ → GHCR
     if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
@@ -123,20 +129,20 @@ jobs:
       - name: Post-deploy instructions for backend
         run: |
           echo ""
-          echo "ðŸ³ Backend Docker image pushed to:"
+          echo "🐳 Backend Docker image pushed to:"
           echo "   ghcr.io/${{ github.repository_owner }}/pixelforge-backend:latest"
           echo ""
-          echo "ðŸ“‹ Next steps â€” pull & run on your server (RunPod / any VPS):"
+          echo "📋 Next steps — pull & run on your server (RunPod / any VPS):"
           echo ""
           echo "   docker login ghcr.io -u ${{ github.repository_owner }} -p <GH_PERSONAL_ACCESS_TOKEN_packages_read>"
           echo "   docker pull ghcr.io/${{ github.repository_owner }}/pixelforge-backend:latest"
           echo ""
           echo "   # Orchestrate with the rest of the stack (Postgres + Redis + Worker + Beat + Flower):"
-          echo "   # â†’ Use the repo-root docker-compose.yml as a template on your server."
+          echo "   # → Use the repo-root docker-compose.yml as a template on your server."
           echo ""
-          echo "ðŸ”‘ Secrets that must be injected at runtime (env-file or managed Postgres/Redis):"
-          echo "   DATABASE_URL           â†’ Managed Postgres (Supabase / Neon / AWS RDS)"
-          echo "   CELERY_BROKER_URL      â†’ Managed Redis (Upstash / AWS ElastiCache)"
-          echo "   CELERY_RESULT_BACKEND  â†’ Same Redis, db=1"
+          echo "🔑 Secrets that must be injected at runtime (env-file or managed Postgres/Redis):"
+          echo "   DATABASE_URL           → Managed Postgres (Supabase / Neon / AWS RDS)"
+          echo "   CELERY_BROKER_URL      → Managed Redis (Upstash / AWS ElastiCache)"
+          echo "   CELERY_RESULT_BACKEND  → Same Redis, db=1"
           echo "   RUNPOD_API_KEY + RUNPOD_ENDPOINT_ID"
           echo "   R2_ACCOUNT_ID / R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY / R2_BUCKET / R2_PUBLIC_URL"
