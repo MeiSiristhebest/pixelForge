@@ -282,7 +282,7 @@ graph TD
 
 ## 📚 API Endpoints Overview
 
-| Method | HTTP Path | Description | Auth |
+| Method | Endpoint | Description | Auth |
 | :--- | :--- | :--- | :--- |
 | `GET`  | `/health` | Aggregate health (DB + Redis + live Worker count) | No |
 | `POST` | `/api/v1/auth/register` | Register a new user (email + bcrypt-hashed password stored in Postgres) | No |
