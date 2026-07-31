@@ -368,7 +368,7 @@ cd frontend && pnpm lint:fix      && pnpm type-check
   - `backend/.env` 文件权限 600，绝不要 commit 到 Git（.gitignore 已屏蔽，但请二次确认）
   - 反向代理到 API 时请启用 HTTPS（Let's Encrypt + Nginx 或 Cloudflare Full (Strict)）
   - PostgreSQL 与 Redis **不要暴露公网端口**，Compose 中对外仅开 3000（前端）/ 8000（API）+ 5555（Flower，建议内网）
-- **漏洞上报**：请发送邮件至 **`pixelforge-security [at] googlegroups [dot] com`**（将 [at] 替换为 @）；我们承诺在 48 小时内首次回复，关键漏洞 72 小时内修复并致谢。
+- **漏洞上报**：请发送邮件至 **`maox_neta@foxmail.com`**；我们承诺在 48 小时内首次回复，关键漏洞 72 小时内修复并致谢。
 - 严禁在公开 Issue 中直接披露未修复的安全漏洞细节。
 
 ---

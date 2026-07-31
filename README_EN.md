@@ -375,7 +375,7 @@ No idea where to begin? Check the [Good First Issue list](https://github.com/Mei
 
 Send suspected issues (JWT-forging bugs, uncaught CORS preflight bypasses, RunPod worker credential leaks via ComfyUI workflow injection, R2 signed-URL privilege escalation, etc.) **by email**, never in a public GitHub Issue:
 
-**`pixelforge-security [at] googlegroups [dot] com`**
+**`maox_neta@foxmail.com`**
 
 First acknowledgement within **48 hours**; critical bugs get a hotfix and a public thanks within 72 hours.
 
