@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/Next.js-16.2.1-black?style=flat-square&logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/React-19.2.4-61DAFB?style=flat-square&logo=react" alt="React" />
   <img src="https://img.shields.io/badge/FastAPI-0.115+-009688?style=flat-square&logo=fastapi" alt="FastAPI" />
-  <img src="https://img.shields.io/badge/Python-%E2%89%A53.12-3776AB?style=flat-square&logo=python" alt="Python" />
+  <img src="https://img.shields.io/badge/Python-≥3.12-3776AB?style=flat-square&logo=python" alt="Python" />
   <img src="https://img.shields.io/badge/Celery-5.4%2B-37814A?style=flat-square" alt="Celery" />
   <img src="https://img.shields.io/badge/Docker-Enabled-2496ED?style=flat-square&logo=docker" alt="Docker" />
 </p>
@@ -51,19 +51,17 @@ PixelForge 是一个面向独立游戏开发者与像素美术爱好者的**端�
 
 ---
 
-## ⚙️ Requirements
+## 🔧 环境要求
 
-运行 PixelForge 之前，请确认你本地或服务器已安装：
-
-| Prerequisite | Minimum Version | Notes |
-|-------------|-----------------|-------|
-| **Docker** | ≥ 24.0 + Compose v2 | 推荐方式；7 个微服务统一编排 |
-| **Node.js** | ≥ 22（推荐 22 LTS） | 仅本地手动构建 Frontend 时需要 |
-| **pnpm** | ≥ 10.25.0 | 与 `frontend/package.json` `packageManager` 字段对齐 |
-| **uv** | ≥ 0.4 | 仅本地手动构建 Backend 时需要（替代 pip + venv） |
-| **Python** | ≥ 3.12 | 由 uv 自动管理，无需手动处理 |
-| **RunPod 账户** | — | 需要 API Key + Endpoint ID（部署 ComfyUI 工作流） |
-| **Cloudflare R2** | — | 需要 Account ID / Access Key / Bucket（存储生成产物） |
+| 依赖 | 最低版本 |
+|------|---------|
+| **Docker** | 24.0 + Compose v2 |
+| **Node.js** | 22 LTS |
+| **pnpm** | 10.25.0 |
+| **Python** | 3.12 |
+| **uv** | 0.4 |
+| **RunPod 账户** | 用于 ComfyUI 工作流部署 |
+| **Cloudflare R2** | 用于生成产物存储 |
 
 ---
 
@@ -300,38 +298,36 @@ graph TD
 
 ---
 
-## 📂 Directory Structure
+## 📂 项目结构
 
 ```text
 pixelForge/
-├── frontend/                      # Next.js 16 App Router 前端（pnpm 10.25）
+├── frontend/                      # Next.js 16 前端
 │   ├── src/
-│   │   ├── app/                   # App Router 页面 (generate/, tasks/, auth/login, ...)
-│   │   ├── components/            # UI + PixiJS Canvas + R3F 预览组件
-│   │   ├── hooks/                 # React hooks：useWebSocketTask、useSpritePlayer
-│   │   ├── lib/                   # API client、工具函数、R2 下载 helpers
-│   │   └── types/                 # TypeScript 类型声明（Task / SpriteSheet / Frame）
-│   ├── public/                    # 静态占位图、favicon
-│   ├── package.json               # packageManager = pnpm@10.25.0
-│   └── Dockerfile                 # 多阶段：pnpm install → next build → production runner
-├── backend/                       # FastAPI + uv 后端
+│   │   ├── app/                   # 页面路由
+│   │   ├── components/            # UI + PixiJS 预览组件
+│   │   ├── hooks/                 # React hooks
+│   │   ├── lib/                   # API client + 工具函数
+│   │   └── types/                 # TypeScript 类型
+│   ├── package.json
+│   └── Dockerfile
+├── backend/                       # FastAPI 后端
 │   ├── app/
 │   │   ├── api/
-│   │   │   └── routes/            # auth / generation / health（每个路由独立文件）
-│   │   ├── celery_app/            # Celery Worker + Beat 入口、generation 任务定义
-│   │   ├── core/                  # 配置、安全（JWT + bcrypt）、CORS 设置
-│   │   ├── models/                # SQLAlchemy ORM 模型：User / Task / RefreshToken
-│   │   ├── services/              # RunPod Wrapper、R2 Storage Wrapper、WS Manager
-│   │   ├── config.py              # pydantic-settings 环境变量声明
-│   │   └── main.py                # FastAPI lifespan + Router include + WS endpoint
-│   ├── alembic/                   # 数据库 Migration（SQLAlchemy → Alembic）
-│   ├── pyproject.toml             # 依赖声明（uv + hatchling build backend）
-│   ├── .env.example               # 必填密钥模板（复制为 .env 使用）
-│   └── Dockerfile                 # 多阶段：uv sync → uvicorn / celery 启动入口
-├── shared/                        # 跨前后端共享的类型定义与常量（WIP）
-├── docker-compose.yml             # 7 服务编排（pg/redis/api/worker/beat/flower/frontend）
-├── .gitignore
-└── README.md
+│   │   │   └── routes/            # auth / generation / health
+│   │   ├── celery_app/            # Celery Worker + Beat
+│   │   ├── core/                  # 配置 + 安全
+│   │   ├── models/                # SQLAlchemy 模型
+│   │   ├── services/              # RunPod + R2 封装
+│   │   └── main.py                # FastAPI 入口
+│   ├── alembic/                   # 数据库迁移
+│   ├── pyproject.toml
+│   ├── .env.example
+│   └── Dockerfile
+├── shared/                        # 共享类型定义
+├── docker-compose.yml             # 7 服务编排
+├── README.md
+└── README_EN.md
 ```
 
 ---
@@ -388,3 +384,4 @@ cd frontend && pnpm lint:fix      && pnpm type-check
 **版权声明**：Copyright (c) 2025–2026 PixelForge Contributors（MIT License）。
 
 完整许可证原文请参阅仓库根目录下的 [`LICENSE`](LICENSE) 文件。
+

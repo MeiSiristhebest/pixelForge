@@ -51,19 +51,17 @@ In a traditional pixel-art workflow, hand-drawing a single multi-direction, mult
 
 ---
 
-## ⚙️ Requirements
+## 🔧 Requirements
 
-Before running PixelForge locally or on a server, make sure the following are available:
-
-| Prerequisite | Minimum Version | Notes |
-|-------------|-----------------|-------|
-| **Docker** | ≥ 24.0 + Compose v2 | Recommended path; orchestrates all 7 microservices. |
-| **Node.js** | ≥ 22 (22.x LTS preferred) | Only required if you are building the Frontend manually outside Docker. |
-| **pnpm** | ≥ 10.25.0 | Must match the `packageManager` field in `frontend/package.json`. |
-| **uv** | ≥ 0.4 | Only required if building the Backend manually (replaces pip + venv). |
-| **Python** | ≥ 3.12 | Managed automatically by uv; no manual pyenv required. |
-| **RunPod account** | — | Required: API Key + Endpoint ID that hosts your ComfyUI workflow. |
-| **Cloudflare R2** | — | Required: Account ID / Access Key / Bucket for finished artwork storage. |
+| Dependency | Minimum Version |
+|------------|-----------------|
+| **Docker** | 24.0 + Compose v2 |
+| **Node.js** | 22 LTS |
+| **pnpm** | 10.25.0 |
+| **Python** | 3.12 |
+| **uv** | 0.4 |
+| **RunPod account** | Required for ComfyUI workflow deployment |
+| **Cloudflare R2** | Required for artwork storage |
 
 ---
 
@@ -300,37 +298,35 @@ Complete OpenAPI request/response schemas and interactive Try-It-Out examples: S
 
 ---
 
-## 📂 Directory Structure
+## 📂 Project Structure
 
 ```text
 pixelForge/
-├── frontend/                      # Next.js 16 App Router (pnpm 10.25)
+├── frontend/                      # Next.js 16 frontend
 │   ├── src/
-│   │   ├── app/                   # App Router pages (generate/, tasks/, auth/login, …)
-│   │   ├── components/            # UI + PixiJS Canvas + R3F preview components
-│   │   ├── hooks/                 # React hooks: useWebSocketTask, useSpritePlayer
-│   │   ├── lib/                   # API client, helpers, R2 download utilities
-│   │   └── types/                 # TS interfaces (Task / SpriteSheet / Frame)
-│   ├── public/                    # Static placeholders, favicon
-│   ├── package.json               # packageManager = pnpm@10.25.0
-│   └── Dockerfile                 # Multi-stage: pnpm install → next build → production runner
-├── backend/                       # FastAPI + uv backend
+│   │   ├── app/                   # Route pages
+│   │   ├── components/            # UI + PixiJS preview
+│   │   ├── hooks/                 # React hooks
+│   │   ├── lib/                   # API client + helpers
+│   │   └── types/                 # TypeScript types
+│   ├── package.json
+│   └── Dockerfile
+├── backend/                       # FastAPI backend
 │   ├── app/
-│   │   ├── api/routes/            # auth / generation / health (one file per route)
-│   │   ├── celery_app/            # Celery Worker + Beat entrypoints; `generation` task definitions
-│   │   ├── core/                  # Settings, security (JWT + bcrypt), CORS configuration
-│   │   ├── models/                # SQLAlchemy ORM models: User / Task / RefreshToken
-│   │   ├── services/              # RunPod wrapper, R2 storage wrapper, WS manager
-│   │   ├── config.py              # pydantic-settings env variable declarations
-│   │   └── main.py                # FastAPI lifespan + router includes + WS endpoint
-│   ├── alembic/                   # Database migrations (SQLAlchemy → Alembic)
-│   ├── pyproject.toml             # Dependency manifest (uv + hatchling build backend)
-│   ├── .env.example               # Required secrets template (copy → .env)
-│   └── Dockerfile                 # Multi-stage: uv sync → uvicorn / celery entrypoints
-├── shared/                        # Cross-stack shared type definitions & constants (WIP)
-├── docker-compose.yml             # 7-service orchestration (pg/redis/api/worker/beat/flower/frontend)
-├── .gitignore
-└── README.md / README_EN.md
+│   │   ├── api/routes/            # auth / generation / health
+│   │   ├── celery_app/            # Celery Worker + Beat
+│   │   ├── core/                  # Config + security
+│   │   ├── models/                # SQLAlchemy models
+│   │   ├── services/              # RunPod + R2 wrappers
+│   │   └── main.py                # FastAPI entrypoint
+│   ├── alembic/                   # Database migrations
+│   ├── pyproject.toml
+│   ├── .env.example
+│   └── Dockerfile
+├── shared/                        # Shared type definitions
+├── docker-compose.yml             # 7-service orchestration
+├── README.md
+└── README_EN.md
 ```
 
 ---
