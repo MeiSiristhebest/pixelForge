@@ -243,15 +243,24 @@ Open [`http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6`](http://localhost
 
 ```mermaid
 graph TD
-    C[Client Browser\nNext.js 16 + PixiJS + R3F]
-    F[FastAPI Backend\nPython 3.12 + AsyncPG]
-    R[(Redis 7\nBroker + Result Backend)]
-    W[Celery Workers\nQueue: generation + celery]
-    B[Celery Beat\nPeriodic Task Scheduler]
-    FL[Flower\nTask UI Monitor]
-    AI[RunPod Serverless GPU\nComfyUI Custom Workflow]
-    S3[(Cloudflare R2\nSprite Artifacts)]
-    PG[(PostgreSQL 16\nTask Metadata + Auth)]
+    C[Client Browser
+Next.js 16 + PixiJS + R3F]
+    F[FastAPI Backend
+Python 3.12 + AsyncPG]
+    R[(Redis 7
+Broker + Result Backend)]
+    W[Celery Workers
+Queue: generation + celery]
+    B[Celery Beat
+Periodic Task Scheduler]
+    FL[Flower
+Task UI Monitor]
+    AI[RunPod Serverless GPU
+ComfyUI Custom Workflow]
+    S3[(Cloudflare R2
+Sprite Artifacts)]
+    PG[(PostgreSQL 16
+Task Metadata + Auth)]
 
     C -- HTTP REST / WS --> F
     F -- Submit Job --> R
