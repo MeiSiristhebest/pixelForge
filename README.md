@@ -243,40 +243,31 @@ curl -s -X POST http://localhost:8000/api/v1/generate \
 
 ```mermaid
 graph TD
-    C[Client Browser
-Next.js 16 + PixiJS + R3F]
-    F[FastAPI Backend
-Python 3.12 + AsyncPG]
-    R[(Redis 7
-Broker + Result Backend)]
-    W[Celery Workers
-Queue: generation + celery]
-    B[Celery Beat
-Periodic Task Scheduler]
-    FL[Flower
-Task UI Monitor]
-    AI[RunPod Serverless GPU
-ComfyUI Custom Workflow]
-    S3[(Cloudflare R2
-Sprite Artifacts)]
-    PG[(PostgreSQL 16
-Task Metadata + Auth)]
+    C["Client Browser\nNext.js 16 + PixiJS + R3F"]
+    F["FastAPI Backend\nPython 3.12 + AsyncPG"]
+    R[("Redis 7\nBroker + Result Backend")]
+    W["Celery Workers\nQueue: generation + celery"]
+    B["Celery Beat\nPeriodic Task Scheduler"]
+    FL["Flower\nTask UI Monitor"]
+    AI["RunPod Serverless GPU\nComfyUI Custom Workflow"]
+    S3[("Cloudflare R2\nSprite Artifacts")]
+    PG[("PostgreSQL 16\nTask Metadata + Auth")]
 
-    C -- HTTP REST / WS --> F
-    F -- Submit Job --> R
-    R -- Process --> W
-    W -- Invoke --> AI
-    W -- Save PNG --> S3
-    F -- Metadata + Auth --> PG
-    B -- Dispatch periodic --> R
-    FL -- Read statuses --> R
+    C -- "HTTP REST / WS" --> F
+    F -- "Submit Job" --> R
+    R -- "Process" --> W
+    W -- "Invoke" --> AI
+    W -- "Save PNG" --> S3
+    F -- "Metadata + Auth" --> PG
+    B -- "Dispatch periodic" --> R
+    FL -- "Read statuses" --> R
 
-    classDef primary fill:#0ea5e9,stroke:#0369a1,color:#fff;
-    classDef store fill:#10b981,stroke:#065f46,color:#fff;
-    classDef compute fill:#f59e0b,stroke:#92400e,color:#fff;
-    class C,F primary;
-    class R,S3,PG store;
-    class W,B,FL,AI compute;
+    classDef primary fill:#0ea5e9,stroke:#0369a1,color:#fff
+    classDef store fill:#10b981,stroke:#065f46,color:#fff
+    classDef compute fill:#f59e0b,stroke:#92400e,color:#fff
+    class C,F primary
+    class R,S3,PG store
+    class W,B,FL,AI compute
 ```
 
 | Layer | Technologies |

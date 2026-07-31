@@ -391,4 +391,4 @@ First acknowledgement within **48 hours**; critical bugs get a hotfix and a publ
 
 **Copyright:** Copyright (c) 2025–2026 PixelForge Contributors. All Rights Reserved.
 
-Full license text: [`LICENSE`](LICENSE).
+Full license text: [`LICENSE`](https://github.com/MeiSiristhebest/pixelForge/blob/main/LICENSE).
