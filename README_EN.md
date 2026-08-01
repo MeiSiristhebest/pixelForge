@@ -18,10 +18,30 @@
 ---
 
 <p align="center">
-    <strong>AI-Powered Pixel Character Generator SaaS Platform</strong>
+  <strong>AI-Powered End-to-End Pixel Character Generator SaaS Platform</strong>
 </p>
 
-## 🌟 About
+---
+
+## Table of Contents
+
+- [About](#about)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Configuration](#configuration)
+- [Architecture](#architecture)
+- [API Endpoints](#api-endpoints)
+- [Project Structure](#project-structure)
+- [Tech Stack](#tech-stack)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
+
+---
+
+## About
 
 **PixelForge** is an **end-to-end AI pixel-character generation SaaS platform** built for indie game developers and pixel-art enthusiasts.
 
@@ -36,7 +56,7 @@ In a traditional pixel-art workflow, hand-drawing a single multi-direction, mult
 
 ---
 
-## ✨ Key Features
+## Features
 
 | Feature | Description | Trade-off Note |
 |---------|-------------|----------------|
@@ -49,7 +69,7 @@ In a traditional pixel-art workflow, hand-drawing a single multi-direction, mult
 
 ---
 
-## 🔧 Requirements
+## Requirements
 
 | Dependency | Minimum Version |
 |------------|-----------------|
@@ -63,7 +83,7 @@ In a traditional pixel-art workflow, hand-drawing a single multi-direction, mult
 
 ---
 
-## 📦 Installation
+## Installation
 
 ### Option A · Docker Compose (recommended — zero host dependencies)
 
@@ -101,8 +121,6 @@ docker compose stop
 # Full teardown + VOLUME DELETE (= WIPE Postgres + Redis data — be careful)
 docker compose down -v
 ```
-
----
 
 ### Option B · Manual local install (recommended for debugging / AI workflow tweaking)
 
@@ -148,40 +166,9 @@ pnpm dev
 
 ---
 
-### 🔧 Configuration · required secrets in `backend/.env`
+## Quick Start
 
-After `cp backend/.env.example backend/.env`, **fill in every `your_*` placeholder below** — generation jobs will fail otherwise:
-
-```env
-# ===== Core =====
-APP_ENV=development          # development / production
-DEBUG=true
-CORS_ORIGINS=http://localhost:3000
-
-# ===== Database & Redis =====
-DATABASE_URL=postgresql+asyncpg://pixelforge:pixelforgepass@postgres:5432/pixelforge
-CELERY_BROKER_URL=redis://redis:6379/0
-CELERY_RESULT_BACKEND=redis://redis:6379/1
-
-# ===== AI Execution (MANDATORY) =====
-RUNPOD_API_KEY=your_runpod_api_key_here    # https://www.runpod.io/console/user/settings
-RUNPOD_ENDPOINT_ID=your_endpoint_id_here   # Serverless endpoint ID that hosts the ComfyUI workflow.
-
-# ===== Cloud Storage (MANDATORY) =====
-R2_ACCOUNT_ID=your_account_id              # Cloudflare Dashboard → R2 → Account Details
-R2_ACCESS_KEY_ID=your_access_key
-R2_SECRET_ACCESS_KEY=your_secret_key
-R2_BUCKET=pixelforge-assets
-R2_PUBLIC_URL=https://your-public-domain.r2.dev
-```
-
-> 📌 **Production tip:** Bind `R2_PUBLIC_URL` to a custom domain (e.g. `assets.pixelforge.io`) and enable a Cloudflare Cache Rule that caches PNG sprite sheets for 7 days — this further cuts R2 GET costs and reduces CDN TTFB.
-
----
-
-## 🚀 Quick Start · end-to-end in 5 minutes
-
-> This section assumes you already chose **Option A** above, every container is `healthy`, and the RunPod + R2 secrets in `backend/.env` are correctly populated.
+> This section assumes you already chose **Option A** above, every container is `healthy`, and the RunPod + R2 secrets in `backend/.env` are correctly populated (see [Configuration](#configuration)).
 
 **Step 1 · Verify the aggregate health check**
 
@@ -237,7 +224,40 @@ Open [`http://localhost:3000/generate/pf-01J2XYZ9A1B2C3D4E5F6`](http://localhost
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+## Configuration
+
+After `cp backend/.env.example backend/.env`, **fill in every `your_*` placeholder below** — generation jobs will fail otherwise:
+
+```env
+# ===== Core =====
+APP_ENV=development          # development / production
+DEBUG=true
+CORS_ORIGINS=http://localhost:3000
+
+# ===== Database & Redis =====
+DATABASE_URL=postgresql+asyncpg://pixelforge:pixelforgepass@postgres:5432/pixelforge
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_RESULT_BACKEND=redis://redis:6379/1
+
+# ===== AI Execution (MANDATORY) =====
+RUNPOD_API_KEY=your_runpod_api_key_here    # https://www.runpod.io/console/user/settings
+RUNPOD_ENDPOINT_ID=your_endpoint_id_here   # Serverless endpoint ID that hosts the ComfyUI workflow.
+
+# ===== Cloud Storage (MANDATORY) =====
+R2_ACCOUNT_ID=your_account_id              # Cloudflare Dashboard → R2 → Account Details
+R2_ACCESS_KEY_ID=your_access_key
+R2_SECRET_ACCESS_KEY=your_secret_key
+R2_BUCKET=pixelforge-assets
+R2_PUBLIC_URL=https://your-public-domain.r2.dev
+```
+
+> 📌 **Production tip:** Bind `R2_PUBLIC_URL` to a custom domain (e.g. `assets.pixelforge.io`) and enable a Cloudflare Cache Rule that caches PNG sprite sheets for 7 days — this further cuts R2 GET costs and reduces CDN TTFB.
+
+---
+
+## Architecture
+
+The browser talks to FastAPI over REST and WebSocket. FastAPI pushes generation jobs into the Redis broker, Celery Workers consume them and invoke the ComfyUI workflow on RunPod serverless GPUs. Rendered PNGs land in Cloudflare R2, while task metadata and auth records are persisted in PostgreSQL. Celery Beat drives periodic tasks and Flower provides task-level observability.
 
 ```mermaid
 graph TD
@@ -268,19 +288,9 @@ graph TD
     class W,B,FL,AI compute
 ```
 
-| Layer | Technologies |
-| :--- | :--- |
-| **Frontend** | Next.js 16 (App Router, Turbopack), TypeScript 5.9, Tailwind CSS 4.2, PixiJS 8.6, React Three Fiber (drei), Framer Motion 12 |
-| **Backend API** | Python 3.12, FastAPI 0.115+, Uvicorn 0.34+, Pydantic v2, SQLAlchemy 2 (async), Alembic |
-| **Async task layer** | Celery 5.4+, Redis 7, Flower 2 (task UI), Celery Beat (periodic scheduling) |
-| **AI workflows** | RunPod Serverless GPU endpoints, ComfyUI custom workflow with a pixel-art LoRA |
-| **Database & storage** | PostgreSQL 16 (`pg_isready` health checks + persistent data volumes), Cloudflare R2 (S3 API, 300+ global POPs) |
-| **Auth & security** | FastAPI OAuth2 + JWT via `python-jose` + `passlib[bcrypt]`; explicit CORS allow-list |
-| **DevOps** | Docker multi-stage builds; Docker Compose v2 orchestration; Ruff (lint + format); Pyright strict (types); Biome (frontend lint + format) |
-
 ---
 
-## 📚 API Endpoints Overview
+## API Endpoints
 
 | Method | Endpoint | Description | Auth |
 | :--- | :--- | :--- | :--- |
@@ -296,7 +306,7 @@ Complete OpenAPI request/response schemas and interactive Try-It-Out examples: S
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 pixelForge/
@@ -329,7 +339,21 @@ pixelForge/
 
 ---
 
-## 🤝 Contributing
+## Tech Stack
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | Next.js 16 (App Router, Turbopack), TypeScript 5.9, Tailwind CSS 4.2, PixiJS 8.6, React Three Fiber (drei), Framer Motion 12 |
+| **Backend API** | Python 3.12, FastAPI 0.115+, Uvicorn 0.34+, Pydantic v2, SQLAlchemy 2 (async), Alembic |
+| **Async task layer** | Celery 5.4+, Redis 7, Flower 2 (task UI), Celery Beat (periodic scheduling) |
+| **AI workflows** | RunPod Serverless GPU endpoints, ComfyUI custom workflow with a pixel-art LoRA |
+| **Database & storage** | PostgreSQL 16 (`pg_isready` health checks + persistent data volumes), Cloudflare R2 (S3 API, 300+ global POPs) |
+| **Auth & security** | FastAPI OAuth2 + JWT via `python-jose` + `passlib[bcrypt]`; explicit CORS allow-list |
+| **DevOps** | Docker multi-stage builds; Docker Compose v2 orchestration; Ruff (lint + format); Pyright strict (types); Biome (frontend lint + format) |
+
+---
+
+## Contributing
 
 > PixelForge is a **new** open-source project — every Issue / PR / Feature Request is warmly appreciated 🙏
 
@@ -357,7 +381,7 @@ No idea where to begin? Check the [Good First Issue list](https://github.com/Mei
 
 ---
 
-## 🔒 Security
+## Security
 
 ### Non-negotiable hardening checklist for production deployments
 
@@ -379,7 +403,7 @@ First acknowledgement within **48 hours**; critical bugs get a hotfix and a publ
 
 ---
 
-## 📄 License
+## License
 
 **PixelForge** is released under the **MIT License**. That means:
 
