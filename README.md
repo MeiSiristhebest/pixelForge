@@ -18,10 +18,30 @@
 ---
 
 <p align="center">
-    <strong>AI-Powered Pixel Character Generator SaaS Platform</strong>
+  <strong>AI 驱动的端到端像素角色生成 SaaS 平台</strong>
 </p>
 
-## 🌟 About
+---
+
+## 目录
+
+- [项目简介 (About)](#项目简介-about)
+- [核心功能 (Features)](#核心功能-features)
+- [环境要求 (Requirements)](#环境要求-requirements)
+- [安装 (Installation)](#安装-installation)
+- [快速开始 (Quick Start)](#快速开始-quick-start)
+- [配置 (Configuration)](#配置-configuration)
+- [架构设计 (Architecture)](#架构设计-architecture)
+- [API 接口 (API Endpoints)](#api-接口-api-endpoints)
+- [项目结构 (Project Structure)](#项目结构-project-structure)
+- [技术栈 (Tech Stack)](#技术栈-tech-stack)
+- [参与贡献 (Contributing)](#参与贡献-contributing)
+- [安全说明 (Security)](#安全说明-security)
+- [许可证 (License)](#许可证-license)
+
+---
+
+## 项目简介 (About)
 
 PixelForge 是一个面向独立游戏开发者与像素美术爱好者的**端到端 AI 像素角色生成 SaaS 平台**。
 
@@ -36,10 +56,10 @@ PixelForge 是一个面向独立游戏开发者与像素美术爱好者的**端�
 
 ---
 
-## ✨ Key Features
+## 核心功能 (Features)
 
-| Feature | Description | Trade-off Note |
-|---------|-------------|----------------|
+| 功能 | 说明 | Trade-off 提示 |
+|------|------|----------------|
 | **⚡ AI 多方向精灵图生成** | 基于 ComfyUI 自定义工作流 + RunPod Serverless GPU，支持正面/背面/侧面 4 向一致性输出 | ⚠️ 生成质量高度依赖 RunPod 端点的 LoRA 权重与工作流版本 |
 | **🔄 WebSocket 实时进度流** | 任务状态（排队/生成中/完成/失败）秒级推送，无轮询开销 | ⚠️ 浏览器标签页休眠时需手动重连 |
 | **🖼️ PixiJS 精灵图预览器** | 支持逐帧播放、速度调节、单帧检查、整页精灵图 PNG 导出 | ⚠️ 8 方向以上的超大精灵图在移动设备 Safari 上可能出现掉帧 |
@@ -49,7 +69,7 @@ PixelForge 是一个面向独立游戏开发者与像素美术爱好者的**端�
 
 ---
 
-## 🔧 环境要求
+## 环境要求 (Requirements)
 
 | 依赖 | 最低版本 |
 |------|----------|
@@ -63,9 +83,9 @@ PixelForge 是一个面向独立游戏开发者与像素美术爱好者的**端�
 
 ---
 
-## 📦 Installation
+## 安装 (Installation)
 
-### Option A：Docker Compose（推荐，零环境依赖）
+### 方式 A：Docker Compose（推荐，零环境依赖）
 
 启动 7 个微服务：PostgreSQL 16、Redis 7、FastAPI、Celery Worker、Celery Beat、Flower 监控、Next.js 前端。
 
@@ -83,8 +103,8 @@ docker compose up -d
 
 **启动成功后访问：**
 
-| Service | URL |
-|---------|-----|
+| 服务 | URL |
+|------|-----|
 | Next.js Frontend | [`http://localhost:3000`](http://localhost:3000) |
 | FastAPI REST API | [`http://localhost:8000`](http://localhost:8000) |
 | Interactive OpenAPI (Swagger) | [`http://localhost:8000/docs`](http://localhost:8000/docs) |
@@ -102,9 +122,7 @@ docker compose stop
 docker compose down -v
 ```
 
----
-
-### Option B：本地手动搭建（适合二次开发/调试）
+### 方式 B：本地手动搭建（适合二次开发/调试）
 
 仅推荐在需要单步调试 AI 工作流或前端热更新时使用。
 
@@ -148,40 +166,9 @@ pnpm dev
 
 ---
 
-### 🔧 Configuration（`backend/.env` 必填密钥）
+## 快速开始 (Quick Start)
 
-`cp backend/.env.example backend/.env` 后，必须填写以下带 `your_*` 占位符的字段：
-
-```env
-# ===== Core =====
-APP_ENV=development          # development / production
-DEBUG=true
-CORS_ORIGINS=http://localhost:3000
-
-# ===== Database & Redis =====
-DATABASE_URL=postgresql+asyncpg://pixelforge:pixelforgepass@postgres:5432/pixelforge
-CELERY_BROKER_URL=redis://redis:6379/0
-CELERY_RESULT_BACKEND=redis://redis:6379/1
-
-# ===== AI Execution (必填) =====
-RUNPOD_API_KEY=your_runpod_api_key_here    # https://www.runpod.io/console/user/settings
-RUNPOD_ENDPOINT_ID=your_endpoint_id_here   # Serverless 端点 ID（ComfyUI 工作流）
-
-# ===== Cloud Storage (必填) =====
-R2_ACCOUNT_ID=your_account_id              # Cloudflare 控制台 → R2 → Account Details
-R2_ACCESS_KEY_ID=your_access_key
-R2_SECRET_ACCESS_KEY=your_secret_key
-R2_BUCKET=pixelforge-assets
-R2_PUBLIC_URL=https://your-public-domain.r2.dev
-```
-
-> 📌 **生产部署提示**：R2_PUBLIC_URL 建议绑定自定义域名（如 `assets.pixelforge.io`），并启用 Cloudflare Cache Rules 缓存 PNG 精灵图 7 天，可进一步降低 R2 GET 请求费用与 CDN 首字节时延。
-
----
-
-## 🚀 Quick Start（5 分钟跑通端到端）
-
-> 假设你已经按 **Option A** 启动了全部服务，并在 `backend/.env` 中正确填写了 RunPod 与 R2 密钥。
+> 假设你已经按 **方式 A** 启动了全部服务，并在 `backend/.env` 中正确填写了 RunPod 与 R2 密钥（填写方式见 [配置 (Configuration)](#配置-configuration)）。
 
 **Step 1：验证健康检查**
 
@@ -237,7 +224,40 @@ curl -s -X POST http://localhost:8000/api/v1/generate \
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+## 配置 (Configuration)
+
+执行 `cp backend/.env.example backend/.env` 后，必须填写以下带 `your_*` 占位符的字段，否则生成任务会失败：
+
+```env
+# ===== Core =====
+APP_ENV=development          # development / production
+DEBUG=true
+CORS_ORIGINS=http://localhost:3000
+
+# ===== Database & Redis =====
+DATABASE_URL=postgresql+asyncpg://pixelforge:pixelforgepass@postgres:5432/pixelforge
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_RESULT_BACKEND=redis://redis:6379/1
+
+# ===== AI Execution (必填) =====
+RUNPOD_API_KEY=your_runpod_api_key_here    # https://www.runpod.io/console/user/settings
+RUNPOD_ENDPOINT_ID=your_endpoint_id_here   # Serverless 端点 ID（ComfyUI 工作流）
+
+# ===== Cloud Storage (必填) =====
+R2_ACCOUNT_ID=your_account_id              # Cloudflare 控制台 → R2 → Account Details
+R2_ACCESS_KEY_ID=your_access_key
+R2_SECRET_ACCESS_KEY=your_secret_key
+R2_BUCKET=pixelforge-assets
+R2_PUBLIC_URL=https://your-public-domain.r2.dev
+```
+
+> 📌 **生产部署提示**：`R2_PUBLIC_URL` 建议绑定自定义域名（如 `assets.pixelforge.io`），并启用 Cloudflare Cache Rules 缓存 PNG 精灵图 7 天，可进一步降低 R2 GET 请求费用与 CDN 首字节时延。
+
+---
+
+## 架构设计 (Architecture)
+
+浏览器通过 REST 与 WebSocket 与 FastAPI 通信；FastAPI 将生成任务投递到 Redis Broker，由 Celery Worker 消费并调用 RunPod Serverless GPU 上的 ComfyUI 工作流；产物 PNG 写入 Cloudflare R2，任务元数据与鉴权信息落库 PostgreSQL；Celery Beat 负责周期任务，Flower 提供任务可视化监控。
 
 ```mermaid
 graph TD
@@ -268,21 +288,11 @@ graph TD
     class W,B,FL,AI compute
 ```
 
-| Layer | Technologies |
-| :--- | :--- |
-| **Frontend** | Next.js 16 (App Router, Turbopack)、TypeScript 5.9、Tailwind CSS 4.2、PixiJS 8.6、React Three Fiber (drei)、Framer Motion 12 |
-| **Backend API** | Python 3.12、FastAPI 0.115+、Uvicorn 0.34+、Pydantic v2、SQLAlchemy 2 (async)、Alembic |
-| **Async Task Layer** | Celery 5.4+、Redis 7、Flower 2（Task UI）、Celery Beat（周期调度） |
-| **AI Workflows** | RunPod Serverless GPU Endpoints、ComfyUI 自定义工作流 + 像素风格 LoRA |
-| **Database & Storage** | PostgreSQL 16（`pg_isready` 健康检查 + 数据持久卷）、Cloudflare R2（S3 API，全球边缘分发） |
-| **Auth & Security** | FastAPI OAuth2 + JWT (`python-jose` + `passlib[bcrypt]`)、CORS 白名单 |
-| **DevOps** | Docker 多阶段构建镜像、Docker Compose v2 编排、Ruff（lint+格式化）、Pyright strict（类型检查）、Biome（前端 lint+format） |
-
 ---
 
-## 📚 API Endpoints Overview
+## API 接口 (API Endpoints)
 
-| Method | Endpoint | Description | Auth Required |
+| Method | Endpoint | 说明 | 是否鉴权 |
 | :--- | :--- | :--- | :--- |
 | `GET`  | `/health` | 综合健康检查（DB + Redis + Worker 数） | No |
 | `POST` | `/api/v1/auth/register` | 用户注册（email + 密码 bcrypt 哈希入 Pg） | No |
@@ -296,7 +306,7 @@ graph TD
 
 ---
 
-## 📂 项目结构
+## 项目结构 (Project Structure)
 
 ```text
 pixelForge/
@@ -330,7 +340,21 @@ pixelForge/
 
 ---
 
-## 🤝 Contributing
+## 技术栈 (Tech Stack)
+
+| 层次 | 技术 |
+| :--- | :--- |
+| **Frontend** | Next.js 16 (App Router, Turbopack)、TypeScript 5.9、Tailwind CSS 4.2、PixiJS 8.6、React Three Fiber (drei)、Framer Motion 12 |
+| **Backend API** | Python 3.12、FastAPI 0.115+、Uvicorn 0.34+、Pydantic v2、SQLAlchemy 2 (async)、Alembic |
+| **Async Task Layer** | Celery 5.4+、Redis 7、Flower 2（Task UI）、Celery Beat（周期调度） |
+| **AI Workflows** | RunPod Serverless GPU Endpoints、ComfyUI 自定义工作流 + 像素风格 LoRA |
+| **Database & Storage** | PostgreSQL 16（`pg_isready` 健康检查 + 数据持久卷）、Cloudflare R2（S3 API，全球边缘分发） |
+| **Auth & Security** | FastAPI OAuth2 + JWT (`python-jose` + `passlib[bcrypt]`)、CORS 白名单 |
+| **DevOps** | Docker 多阶段构建镜像、Docker Compose v2 编排、Ruff（lint+格式化）、Pyright strict（类型检查）、Biome（前端 lint+format） |
+
+---
+
+## 参与贡献 (Contributing)
 
 > 这是一个新起的开源项目，所有 Issue / PR / Feature Request 都极其欢迎 🙏
 
@@ -342,7 +366,7 @@ git clone https://github.com/<YOUR_USERNAME>/pixelForge.git
 cd pixelForge
 
 # 2. 启动中间件 + Backend（uv sync）+ Frontend（pnpm install）
-# 参见 Installation → Option B
+# 参见 Installation → 方式 B
 
 # 3. 创建分支（惯例：feat/xxx、fix/yyy、docs/zzz）
 git checkout -b feat/support-sprite-sheet-auditing
@@ -358,20 +382,29 @@ cd frontend && pnpm lint:fix      && pnpm type-check
 
 ---
 
-## 🔒 Security
+## 安全说明 (Security)
 
-- **生产部署务必**：
-  - 将 `APP_ENV=production` 且 `DEBUG=false`
-  - `CORS_ORIGINS` 只允许自己的前端域名，**不要在生产写 `*`**
-  - `backend/.env` 文件权限 600，绝不要 commit 到 Git（.gitignore 已屏蔽，但请二次确认）
-  - 反向代理到 API 时请启用 HTTPS（Let's Encrypt + Nginx 或 Cloudflare Full (Strict)）
-  - PostgreSQL 与 Redis **不要暴露公网端口**，Compose 中对外仅开 3000（前端）/ 8000（API）+ 5555（Flower，建议内网）
-- **漏洞上报**：请发送邮件至 **`maox_neta@foxmail.com`**；我们承诺在 48 小时内首次回复，关键漏洞 72 小时内修复并致谢。
-- 严禁在公开 Issue 中直接披露未修复的安全漏洞细节。
+### 生产环境加固清单
+
+- 设置 `APP_ENV=production` 且 `DEBUG=false`。
+- `CORS_ORIGINS` 只允许自己的前端域名，**不要在生产写 `*`**。
+- `backend/.env` 文件权限设为 `0600`，绝不要 commit 到 Git（`.gitignore` 已屏蔽，但请二次确认）。
+- 反向代理到 API 时请启用 HTTPS（Let's Encrypt + Nginx 或 Cloudflare Full (Strict)）。
+- PostgreSQL 与 Redis **不要暴露公网端口**，Compose 中对外仅开放 3000（前端）、8000（API）、5555（Flower，建议仅内网可达）。
+- 定期轮换 RunPod API Key、Cloudflare R2 Access Key 与 JWT 签名密钥，不要把个人云账号凭据复用到 PixelForge 服务角色上。
+- Celery Flower（`:5555`）应置于 HTTP Basic Auth 或内网 VPN 之后——它会暴露任务级元数据与 Worker 重启控制。
+
+### 漏洞上报
+
+发现可疑问题（JWT 伪造、CORS 预检绕过、ComfyUI 工作流注入导致的 RunPod 凭据泄露、R2 签名 URL 越权等）请通过邮件上报，**严禁在公开 Issue 中直接披露未修复的安全漏洞细节**：
+
+**`maox_neta@foxmail.com`**
+
+我们承诺在 **48 小时**内首次回复，关键漏洞 72 小时内修复并致谢。
 
 ---
 
-## 📄 License
+## 许可证 (License)
 
 **PixelForge** 基于 **MIT License** 开源。这意味着：
 
