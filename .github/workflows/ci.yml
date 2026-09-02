@@ -83,4 +83,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate docker-compose.yml (root)
-        run: docker compose -f docker-compose.yml config -q
+        run: |
+          cp backend/.env.example backend/.env
+          docker compose -f docker-compose.yml config -q
