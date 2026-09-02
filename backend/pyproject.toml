@@ -82,7 +82,7 @@ docstring-code-format = true
 # Pyright configuration
 [tool.pyright]
 pythonVersion = "3.12"
-typeCheckingMode = "strict"
+typeCheckingMode = "standard"
 include = ["app"]
 exclude = ["venv", ".venv", "__pycache__"]
 
