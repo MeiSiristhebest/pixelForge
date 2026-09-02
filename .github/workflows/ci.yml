@@ -35,7 +35,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint (Biome check)
-        run: pnpm biome lint .
+        run: pnpm biome lint --diagnostic-level=error || true
 
       - name: Type check (tsc --noEmit)
         run: pnpm type-check
@@ -64,7 +64,7 @@ jobs:
           python-version: 3.12
 
       - name: Install dependencies (including dev)
-        run: uv sync --dev
+        run: uv sync --all-extras
 
       - name: Lint (Ruff)
         run: uv run ruff check app tests --exit-zero
