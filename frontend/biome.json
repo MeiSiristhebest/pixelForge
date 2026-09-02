@@ -27,6 +27,9 @@
         "useConst": "error",
         "noNonNullAssertion": "warn"
       },
+      "a11y": {
+        "noSvgWithoutTitle": "off"
+      },
       "security": {
         "noDangerouslySetInnerHtml": "error"
       }

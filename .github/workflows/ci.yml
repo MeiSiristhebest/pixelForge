@@ -35,7 +35,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint (Biome check)
-        run: pnpm lint
+        run: pnpm biome lint .
 
       - name: Type check (tsc --noEmit)
         run: pnpm type-check
