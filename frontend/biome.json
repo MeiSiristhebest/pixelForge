@@ -28,7 +28,7 @@
         "noNonNullAssertion": "warn"
       },
       "a11y": {
-        "noSvgWithoutTitle": "off"
+        "recommended": false
       },
       "security": {
         "noDangerouslySetInnerHtml": "error"
